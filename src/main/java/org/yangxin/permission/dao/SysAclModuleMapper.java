@@ -1,6 +1,6 @@
 package org.yangxin.permission.dao;
 
-import org.yangxin.model.SysAclModule;
+import org.yangxin.permission.model.SysAclModule;
 
 public interface SysAclModuleMapper {
     int deleteByPrimaryKey(Integer id);

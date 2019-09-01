@@ -3,6 +3,9 @@ package org.yangxin.permission.common;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Json封装类
  *
@@ -44,5 +47,14 @@ public class JsonData {
         jsonData.msg = msg;
 
         return jsonData;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("ret", ret);
+        result.put("msg", msg);
+        result.put("data", data);
+
+        return result;
     }
 }

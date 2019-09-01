@@ -1,6 +1,6 @@
 package org.yangxin.permission.dao;
 
-import org.yangxin.model.SysDept;
+import org.yangxin.permission.model.SysDept;
 
 public interface SysDeptMapper {
     int deleteByPrimaryKey(Integer id);

@@ -1,7 +1,7 @@
 package org.yangxin.permission.dao;
 
-import org.yangxin.model.SysLog;
-import org.yangxin.model.SysLogWithBLOBs;
+import org.yangxin.permission.model.SysLog;
+import org.yangxin.permission.model.SysLogWithBLOBs;
 
 public interface SysLogMapper {
     int deleteByPrimaryKey(Integer id);

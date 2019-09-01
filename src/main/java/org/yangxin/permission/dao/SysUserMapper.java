@@ -1,6 +1,6 @@
 package org.yangxin.permission.dao;
 
-import org.yangxin.model.SysUser;
+import org.yangxin.permission.model.SysUser;
 
 public interface SysUserMapper {
     int deleteByPrimaryKey(Integer id);
