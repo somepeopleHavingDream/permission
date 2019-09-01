@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 数据库驱动包位置，这里是完整的绝对路径 -->
+    <classPathEntry location="/home/yangxin/IdeaProjects/permission/generator/mysql-connector-java-8.0.17.jar"/>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 注释生成器，关闭注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库链接URL、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/permission?characterEncoding=utf8" userId="root"
+                        password="123456"/>
+
+        <!-- java类型解析器，取消强制转换为BigDecimal类型 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="org.yangxin.model"
+                            targetProject="/home/yangxin/IdeaProjects/permission/generator/src">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成的映射文件包名和位置 -->
+        <sqlMapGenerator targetPackage="org.yangxin.mapper"
+                         targetProject="/home/yangxin/IdeaProjects/permission/generator/src">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成Dao的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.yangxin.dao"
+                             targetProject="/home/yangxin/IdeaProjects/permission/generator/src">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 要生成哪些表（更改tableName和domainObjectName就可以）-->
+        <table tableName="sys_user" domainObjectName="SysUser" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_dept" domainObjectName="SysDept" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_acl" domainObjectName="SysAcl" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+        <table tableName="sys_acl_module" domainObjectName="SysAclModule" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_role" domainObjectName="SysRole" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_role_acl" domainObjectName="SysRoleAcl" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_role_user" domainObjectName="SysRoleUser" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="sys_log" domainObjectName="SysLog" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"/>
+    </context>
+</generatorConfiguration>
