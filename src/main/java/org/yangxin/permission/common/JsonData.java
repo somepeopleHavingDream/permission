@@ -42,14 +42,14 @@ public class JsonData {
         return new JsonData(true);
     }
 
-    public static JsonData fail(String msg) {
+    static JsonData fail(String msg) {
         JsonData jsonData = new JsonData(false);
         jsonData.msg = msg;
 
         return jsonData;
     }
 
-    public Map<String, Object> toMap() {
+    Map<String, Object> toMap() {
         Map<String, Object> result = new HashMap<>();
         result.put("ret", ret);
         result.put("msg", msg);

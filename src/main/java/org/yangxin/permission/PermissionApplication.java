@@ -10,4 +10,21 @@ public class PermissionApplication {
         SpringApplication.run(PermissionApplication.class, args);
     }
 
+//    @Bean
+//    public MappingJackson2HttpMessageConverter getMappingJackson2HttpMessageConverter() {
+//        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+//
+//        // 设置日期格式
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        objectMapper.setDateFormat(simpleDateFormat);
+//        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
+//
+//        // 设置中文编码格式
+//        List<MediaType> mediaTypeList = new ArrayList<>();
+//        mediaTypeList.add(MediaType.APPLICATION_JSON_UTF8);
+//        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(mediaTypeList);
+//
+//        return mappingJackson2HttpMessageConverter;
+//    }
 }

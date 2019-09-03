@@ -1,8 +1,11 @@
 package org.yangxin.permission.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.yangxin.permission.exception.PermissionException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  * 2019/09/01 12:09
  */
 @Slf4j
+@ControllerAdvice
 public class SpringExceptionResolver implements HandlerExceptionResolver {
     @Override
+    @ExceptionHandler(Exception.class)
     public ModelAndView resolveException(HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse,
                                          Object o,
@@ -31,12 +36,17 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
         if (url.endsWith(".json")) {
             if (e instanceof PermissionException) {
                 JsonData result = JsonData.fail(e.getMessage());
-                mv = new ModelAndView("jsonView", result.toMap());
+//                mv = new ModelAndView("jsonView", result.toMap());
+                // 设置返回的数据为json类型，也可以不设置，返回对象
+                mv = new ModelAndView(new MappingJackson2JsonView());
+                mv.addObject(result.toMap());
             } else {
                 log.error("unknown json exception, url: " + url, e);
 
                 JsonData result = JsonData.fail(defaultMsg);
-                mv = new ModelAndView("jsonView", result.toMap());
+//                mv = new ModelAndView("jsonView", result.toMap());
+                mv = new ModelAndView(new MappingJackson2JsonView());
+                mv.addObject(result.toMap());
             }
         } else if (url.endsWith(".page")) {
             log.error("unknown page exception, url: " + url, e);
@@ -48,7 +58,9 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
             log.error("unknown exception, url: " + url, e);
 
             JsonData result = JsonData.fail(defaultMsg);
-            mv = new ModelAndView("jsonView", result.toMap());
+//            mv = new ModelAndView("jsonView", result.toMap());
+            mv = new ModelAndView(new MappingJackson2JsonView());
+            mv.addObject(result.toMap());
         }
 
         return mv;
