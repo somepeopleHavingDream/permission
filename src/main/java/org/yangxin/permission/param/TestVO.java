@@ -3,8 +3,8 @@ package org.yangxin.permission.param;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * @author yangxin
@@ -19,6 +19,12 @@ public class TestVO {
     @NotBlank
     private String msg;
 
+    @NotNull(message = "id不可以为空")
+    @Max(value = 10, message = "id 不能大于10")
+    @Min(value = 0, message = "id 至少大于等于0")
     @NotNull
     private Integer id;
+
+    @NotEmpty
+    private List<String> str;
 }

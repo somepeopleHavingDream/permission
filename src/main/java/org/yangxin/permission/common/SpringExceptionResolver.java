@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.yangxin.permission.exception.ParamException;
 import org.yangxin.permission.exception.PermissionException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
 
         // 这里我们要求项目中所有请求json数据，都使用.json结尾
         if (url.endsWith(".json")) {
-            if (e instanceof PermissionException) {
+            if (e instanceof PermissionException || e instanceof ParamException) {
                 JsonData result = JsonData.fail(e.getMessage());
 //                mv = new ModelAndView("jsonView", result.toMap());
                 // 设置返回的数据为json类型，也可以不设置，返回对象
