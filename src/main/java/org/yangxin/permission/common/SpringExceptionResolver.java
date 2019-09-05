@@ -37,7 +37,6 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
         if (url.endsWith(".json")) {
             if (e instanceof PermissionException || e instanceof ParamException) {
                 JsonData result = JsonData.fail(e.getMessage());
-//                mv = new ModelAndView("jsonView", result.toMap());
                 // 设置返回的数据为json类型，也可以不设置，返回对象
                 mv = new ModelAndView(new MappingJackson2JsonView());
                 mv.addObject(result.toMap());
@@ -45,7 +44,6 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
                 log.error("unknown json exception, url: " + url, e);
 
                 JsonData result = JsonData.fail(defaultMsg);
-//                mv = new ModelAndView("jsonView", result.toMap());
                 mv = new ModelAndView(new MappingJackson2JsonView());
                 mv.addObject(result.toMap());
             }
@@ -59,7 +57,6 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
             log.error("unknown exception, url: " + url, e);
 
             JsonData result = JsonData.fail(defaultMsg);
-//            mv = new ModelAndView("jsonView", result.toMap());
             mv = new ModelAndView(new MappingJackson2JsonView());
             mv.addObject(result.toMap());
         }

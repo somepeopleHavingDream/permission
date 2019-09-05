@@ -7,6 +7,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Json、Object工具类 -> 源码中是用ObjectMapper来实现的，但是我用Gson完成这个类的功能
+ *
+ * @author yangxin
+ * 2019/09/05 17:21
+ */
 @Slf4j
 public class JsonMapper {
     private static ObjectMapper objectMapper = new ObjectMapper();

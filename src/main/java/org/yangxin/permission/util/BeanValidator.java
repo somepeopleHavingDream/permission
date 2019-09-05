@@ -50,7 +50,7 @@ public class BeanValidator {
         return errorMap;
     }
 
-    public static Map<Object, Object> validateObject(Object first, Object... objects) {
+    private static Map<Object, Object> validateObject(Object first, Object... objects) {
         return objects != null && objects.length > 0
                 ? validateList(Lists.asList(first, objects))
                 : validate(first);
