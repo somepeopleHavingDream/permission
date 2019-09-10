@@ -1,5 +1,6 @@
 package org.yangxin.permission.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.yangxin.permission.model.SysUser;
 
 public interface SysUserMapper {
@@ -14,4 +15,6 @@ public interface SysUserMapper {
     int updateByPrimaryKeySelective(SysUser record);
 
     int updateByPrimaryKey(SysUser record);
+
+    int countByDeptId(@Param("deptId") int deptId);
 }

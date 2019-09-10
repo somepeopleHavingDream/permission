@@ -15,6 +15,45 @@
   <sql id="Base_Column_List">
     id, name, parent_id, level, seq, remark, operator, operator_time, operator_ip
   </sql>
+
+  <select id="getAllDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_dept
+  </select>
+
+  <select id="countByParentId" parameterType="int" resultType="int">
+    select count(*)
+    from sys_dept
+    where parent_id = #{deptId}
+  </select>
+
+  <update id="batchUpdateLevel" parameterType="map">
+    <foreach collection="sysDeptList" item="dept" separator=";">
+      update sys_dept
+      set level = #{dept.level}
+      where id = #{dept.id}
+    </foreach>
+  </update>
+
+  <select id="getChildDeptListByLevel" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_dept
+    where level like #{level}
+  </select>
+
+  <select id="countByNameParentId" parameterType="map" resultType="int">
+    select count(*)
+    from sys_dept
+    where name = #{name}
+    <if test="parentId != null">
+      and parent_id = #{parentId}
+    </if>
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

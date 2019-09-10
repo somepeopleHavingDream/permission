@@ -21,6 +21,9 @@ public class RequestHolder {
         requestHolder.set(request);
     }
 
+    /**
+     * 返回当前用户
+     */
     public static SysUser getCurrentUser() {
         return userHolder.get();
     }

@@ -18,6 +18,13 @@
     id, username, telephone, mail, password, dept_id, status, remark, operator, operator_time, 
     operator_ip
   </sql>
+
+  <select id="countByDeptId" parameterType="int" resultType="int">
+    select count(*)
+    from sys_user
+    where dept_id = #{deptId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
