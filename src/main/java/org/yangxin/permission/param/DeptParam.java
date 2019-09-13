@@ -27,7 +27,7 @@ public class DeptParam {
     private String name;
 
     /**
-     * 父级部门Id
+     * 父级部门Id，默认为0
      */
     private Integer parentId = 0;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.yangxin.dao.SysLogMapper">
-  <resultMap id="BaseResultMap" type="org.yangxin.model.SysLog">
+<mapper namespace="org.yangxin.permission.dao.SysLogMapper">
+  <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysLog">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="INTEGER" property="type" />
     <result column="target_id" jdbcType="INTEGER" property="targetId" />
@@ -10,7 +10,7 @@
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yangxin.model.SysLogWithBLOBs">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yangxin.permission.model.SysLogWithBLOBs">
     <result column="old_value" jdbcType="LONGVARCHAR" property="oldValue" />
     <result column="new_value" jdbcType="LONGVARCHAR" property="newValue" />
   </resultMap>
@@ -32,7 +32,7 @@
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.yangxin.model.SysLogWithBLOBs">
+  <insert id="insert" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     insert into sys_log (id, type, target_id, 
       status, operator, operator_time, 
       operator_ip, old_value, new_value
@@ -42,7 +42,7 @@
       #{operatorIp,jdbcType=VARCHAR}, #{oldValue,jdbcType=LONGVARCHAR}, #{newValue,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.yangxin.model.SysLogWithBLOBs">
+  <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -103,7 +103,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.model.SysLogWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     update sys_log
     <set>
       <if test="type != null">
@@ -133,7 +133,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yangxin.model.SysLogWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
       new_value = #{newValue,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.yangxin.model.SysLog">
+  <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysLog">
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},

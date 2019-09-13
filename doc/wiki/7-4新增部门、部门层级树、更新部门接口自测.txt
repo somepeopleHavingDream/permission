@@ -1,0 +1,6 @@
+localhost:8080/sys/dept/save.json?name=技术部&seq=1&remark=技术部
+localhost:8080/sys/dept/save.json?name=后端开发&seq=1&parentId=4
+localhost:8080/sys/dept/save.json?name=前端开发&seq=2&parentId=4
+localhost:8080/sys/dept/update.json?id=5&name=后端开发&seq=1&parentId=4&remark=后端
+localhost:8080/sys/dept/tree.json
+org.yangxin.permission.model.SysAcl

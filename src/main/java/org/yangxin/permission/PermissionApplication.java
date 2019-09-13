@@ -1,5 +1,6 @@
 package org.yangxin.permission;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -7,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.yangxin.permission.common.HttpInterceptor;
 
 @SpringBootApplication
+@MapperScan(basePackages = {"org.yangxin.permission.dao"})
 public class PermissionApplication implements WebMvcConfigurer {
 
     public static void main(String[] args) {

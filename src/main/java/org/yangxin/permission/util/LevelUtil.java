@@ -13,6 +13,8 @@ public class LevelUtil {
     public final static String ROOT = "0";
 
     /**
+     * 计算出部门级别
+     *
      * 0
      * 0.1
      * 0.1.2

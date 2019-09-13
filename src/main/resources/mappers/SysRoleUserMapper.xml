@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.yangxin.dao.SysRoleAclMapper">
-  <resultMap id="BaseResultMap" type="org.yangxin.model.SysRoleAcl">
+<mapper namespace="org.yangxin.permission.dao.SysRoleUserMapper">
+  <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysRoleUser">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="acl_id" jdbcType="INTEGER" property="aclId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="operator" jdbcType="VARCHAR" property="operator" />
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, role_id, acl_id, operator, operator_time, operator_ip
+    id, role_id, user_id, operator, operator_time, operator_ip
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from sys_role_acl
+    from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from sys_role_acl
+    delete from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.yangxin.model.SysRoleAcl">
-    insert into sys_role_acl (id, role_id, acl_id, 
+  <insert id="insert" parameterType="org.yangxin.permission.model.SysRoleUser">
+    insert into sys_role_user (id, role_id, user_id, 
       operator, operator_time, operator_ip
       )
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{aclId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{operator,jdbcType=VARCHAR}, #{operatorTime,jdbcType=TIMESTAMP}, #{operatorIp,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.yangxin.model.SysRoleAcl">
-    insert into sys_role_acl
+  <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysRoleUser">
+    insert into sys_role_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -39,8 +39,8 @@
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="aclId != null">
-        acl_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="operator != null">
         operator,
@@ -59,8 +59,8 @@
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="aclId != null">
-        #{aclId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="operator != null">
         #{operator,jdbcType=VARCHAR},
@@ -73,14 +73,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.model.SysRoleAcl">
-    update sys_role_acl
+  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysRoleUser">
+    update sys_role_user
     <set>
       <if test="roleId != null">
         role_id = #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="aclId != null">
-        acl_id = #{aclId,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="operator != null">
         operator = #{operator,jdbcType=VARCHAR},
@@ -94,10 +94,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.yangxin.model.SysRoleAcl">
-    update sys_role_acl
+  <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysRoleUser">
+    update sys_role_user
     set role_id = #{roleId,jdbcType=INTEGER},
-      acl_id = #{aclId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       operator = #{operator,jdbcType=VARCHAR},
       operator_time = #{operatorTime,jdbcType=TIMESTAMP},
       operator_ip = #{operatorIp,jdbcType=VARCHAR}

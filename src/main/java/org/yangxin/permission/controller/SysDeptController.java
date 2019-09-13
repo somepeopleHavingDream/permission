@@ -35,13 +35,21 @@ public class SysDeptController {
         return new ModelAndView("dept");
     }
 
+    /**
+     * 新增部门
+     */
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonData saveDept(DeptParam param) {
+        log.info("param: [{}}", param);
+
         sysDeptService.save(param);
         return JsonData.success();
     }
 
+    /**
+     * 获得部门树
+     */
     @RequestMapping("/tree.json")
     @ResponseBody
     public JsonData tree() {
@@ -49,6 +57,9 @@ public class SysDeptController {
         return JsonData.success(dtoList);
     }
 
+    /**
+     * 更新部门
+     */
     @RequestMapping("/update.json")
     @ResponseBody
     public JsonData updateDept(DeptParam param) {

@@ -1,7 +1,6 @@
 package org.yangxin.permission.dto;
 
 import com.google.common.collect.Lists;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,8 +19,14 @@ import java.util.List;
 @Setter
 @ToString
 public class DeptLevelDto extends SysDept {
+    /**
+     * 子部门集合
+     */
     private List<DeptLevelDto> deptList = Lists.newArrayList();
 
+    /**
+     * 将SysDept对象转换成DeptLevelDto对象
+     */
     public static DeptLevelDto adapt(SysDept dept) {
         DeptLevelDto dto = new DeptLevelDto();
         BeanUtils.copyProperties(dept, dto);

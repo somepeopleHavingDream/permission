@@ -4,14 +4,12 @@ import com.google.common.base.Preconditions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysDeptMapper;
 import org.yangxin.permission.dao.SysUserMapper;
 import org.yangxin.permission.exception.ParamException;
 import org.yangxin.permission.model.SysDept;
 import org.yangxin.permission.param.DeptParam;
 import org.yangxin.permission.util.BeanValidator;
-import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.LevelUtil;
 
 import javax.annotation.Resource;
@@ -54,15 +52,16 @@ public class SysDeptService {
 
         // 设置层级、操作人、操作人Ip、操作时间
         dept.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()), param.getParentId()));
-        dept.setOperator(RequestHolder.getCurrentUser().getUsername());
-        dept.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        dept.setOperatorTime(new Date());
+        setOperation(dept);
 
         // 往数据库插入相关记录
         sysDeptMapper.insertSelective(dept);
-        sysLogService.saveDeptLog(null, dept);
+//        sysLogService.saveDeptLog(null, dept);
     }
 
+    /**
+     * 更新部门
+     */
     public void update(DeptParam param) {
         // 参数校验、判断该部门名称是否已经存在
         BeanValidator.check(param);
@@ -73,10 +72,11 @@ public class SysDeptService {
         SysDept before = sysDeptMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的部门不存在");
         // 这里没看懂，为啥要两次校验，可能是源码冗余了
-        if (checkExist(param.getParentId(), param.getName(), param.getId())) {
-            throw new ParamException("同一层级下存在相同名称的部门");
-        }
+//        if (checkExist(param.getParentId(), param.getName(), param.getId())) {
+//            throw new ParamException("同一层级下存在相同名称的部门");
+//        }
 
+        // 设值
         SysDept after = SysDept.builder()
                 .id(param.getId())
                 .name(param.getName())
@@ -85,11 +85,20 @@ public class SysDeptService {
                 .remark(param.getRemark())
                 .build();
         after.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()), param.getParentId()));
-        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        after.setOperatorTime(new Date());
+        setOperation(after);
 
         updateWithChild(before, after);
-        sysLogService.saveDeptLog(before, after);
+//        sysLogService.saveDeptLog(before, after);
+    }
+
+    /**
+     * 操作人、操作人Ip、操作时间
+     */
+    private void setOperation(SysDept after) {
+        after.setOperator("system");
+        after.setOperatorIp("127.0.0.1");
+//        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        after.setOperatorTime(new Date());
     }
 
     /**
@@ -99,8 +108,12 @@ public class SysDeptService {
     public void updateWithChild(SysDept before, SysDept after) {
         String newLevelPrefix = after.getLevel();
         String oldLevelPrefix = before.getLevel();
+
+        // 如果该部门的层级更新了，则该部门下的子部门的层级都需要更新
         if (!Objects.equals(after.getLevel(), before.getLevel())) {
+            // 当前层级
             String curLevel = before.getLevel() + "." + before.getId();
+
             List<SysDept> deptList = sysDeptMapper.getChildDeptListByLevel(curLevel + "%");
             if (CollectionUtils.isNotEmpty(deptList)) {
                 for (SysDept dept : deptList) {
