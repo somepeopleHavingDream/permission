@@ -1,0 +1,9 @@
+- SysDeptController @
+- dept.jsp @
+- assets @
+- bootstrap3.3.5 @
+- css @
+- js @
+- common @
+
+localhost:8080/sys/dept/dept.page

@@ -32,6 +32,7 @@ public class SysDeptController {
 
     @RequestMapping("/dept.page")
     public ModelAndView page() {
+        log.info("进入部门管理页面");
         return new ModelAndView("dept");
     }
 

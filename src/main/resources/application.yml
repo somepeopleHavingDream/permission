@@ -8,7 +8,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   mvc:
     view:
-      prefix: /views/
+      prefix: /WEB-INF/views/
       suffix: .jsp
 
 ## mybatis
