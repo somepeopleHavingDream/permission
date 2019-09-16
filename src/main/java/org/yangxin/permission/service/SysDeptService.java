@@ -97,7 +97,6 @@ public class SysDeptService {
     private void setOperation(SysDept after) {
         after.setOperator("system");
         after.setOperatorIp("127.0.0.1");
-//        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperatorTime(new Date());
     }
 

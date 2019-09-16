@@ -6,6 +6,7 @@ import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysLogMapper;
 import org.yangxin.permission.model.SysDept;
 import org.yangxin.permission.model.SysLogWithBLOBs;
+import org.yangxin.permission.model.SysUser;
 import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.JsonMapper;
 
@@ -38,10 +39,31 @@ public class SysLogService {
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
+        setOperation(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    /**
+     * 存储用户日志
+     */
+    public void saveUserLog(SysUser before, SysUser after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_USER);
+        sysLog.setTargetId(after == null ? before.getId() : after.getId());
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        setOperation(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    /**
+     * 操作者Ip、操作时间、操作状态
+     */
+    private void setOperation(SysLogWithBLOBs sysLog) {
         sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperatorTime(new Date());
         sysLog.setStatus(1);
-
-        sysLogMapper.insertSelective(sysLog);
     }
 }

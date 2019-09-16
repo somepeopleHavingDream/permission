@@ -12,6 +12,13 @@
   <sql id="Base_Column_List">
     id, role_id, user_id, operator, operator_time, operator_ip
   </sql>
+
+  <select id="getRoleIdListByUserId" parameterType="map" resultType="int">
+    select role_id
+    from sys_role_user
+    where user_id = #{userId}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

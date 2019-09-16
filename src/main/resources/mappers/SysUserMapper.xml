@@ -19,6 +19,32 @@
     operator_ip
   </sql>
 
+  <select id="getPageByDeptId" parameterType="map" resultMap="BeanResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_user
+    where dept_id = #{deptId}
+    order by username asc
+    limit #{page.offset}, #{page.pageSize}
+  </select>
+
+  <select id="countByMail" parameterType="map" resultType="int">
+    select count(*)
+    from sys_user
+    where mail = #{mail}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+  <select id="countByTelephone" parameterType="map" resultType="int">
+    select count(*)
+    from sys_user
+    where telephone = #{telephone}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
   <select id="countByDeptId" parameterType="int" resultType="int">
     select count(*)
     from sys_user

@@ -19,6 +19,22 @@
     id, code, name, acl_module_id, url, type, seq, status, remark, operator, operator_time, 
     operator_ip
   </sql>
+
+  <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_acl
+    where id
+    in
+        <foreach collection="idList" item="id" open="(" close=")" separator=",">
+          #{id}
+        </foreach>
+  </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_acl
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -1,6 +1,9 @@
 package org.yangxin.permission.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.yangxin.permission.model.SysAcl;
+
+import java.util.List;
 
 public interface SysAclMapper {
     int deleteByPrimaryKey(Integer id);
@@ -14,4 +17,14 @@ public interface SysAclMapper {
     int updateByPrimaryKeySelective(SysAcl record);
 
     int updateByPrimaryKey(SysAcl record);
+
+    /**
+     * 得到全部权限
+     */
+    List<SysAcl> getAll();
+
+    /**
+     * 通过id，获得所有权限记录
+     */
+    List<SysAcl> getByIdList(@Param("idList") List<Integer> idList);
 }
