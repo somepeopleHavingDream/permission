@@ -19,6 +19,18 @@
     operator_ip
   </sql>
 
+  <select id="getAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_user
+  </select>
+
+  <select id="findByKeyword" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_user
+    where telephone = #{keyword}
+    or mail = #{keyword}
+  </select>
+
   <select id="getPageByDeptId" parameterType="map" resultMap="BeanResultMap">
     select <include refid="Base_Column_List"/>
     from sys_user

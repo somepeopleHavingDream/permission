@@ -20,6 +20,11 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
 
     /**
+     * 得到全部的用户记录
+     */
+    List<SysUser> getAll();
+
+    /**
      * 查看有多少条与给定部门Id相同的记录数
      *
      * @param deptId 部门Id
@@ -49,4 +54,9 @@ public interface SysUserMapper {
      * @param page 分页查询对象
      */
     List<SysUser> getPageByDeptId(@Param("deptId") int deptId, @Param("page")PageQuery page);
+
+    /**
+     * 通过关键字查看用户记录
+     */
+    SysUser findByKeyword(@Param("keyword") String keyword);
 }

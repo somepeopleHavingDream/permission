@@ -30,6 +30,22 @@ public class SysUserService {
     private SysLogService sysLogService;
 
     /**
+     * 得到全部用户记录
+     */
+    public List<SysUser> getAll() {
+        return sysUserMapper.getAll();
+    }
+
+    /**
+     * 通过关键字查找一条用户记录
+     *
+     * @param keyword 关键字
+     */
+    public SysUser findByKeyword(String keyword) {
+        return sysUserMapper.findByKeyword(keyword);
+    }
+
+    /**
      * 根据部门Id，分页查询
      *
      * @param deptId  部门id
