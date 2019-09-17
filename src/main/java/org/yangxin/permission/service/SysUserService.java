@@ -92,7 +92,7 @@ public class SysUserService {
         setOperation(after);
 
         sysUserMapper.updateByPrimaryKeySelective(after);
-        sysLogService.saveUserLog(before, after);
+//        sysLogService.saveUserLog(before, after);
     }
 
     /**
@@ -115,6 +115,8 @@ public class SysUserService {
         SysUser user = SysUser.builder()
                 .username(param.getUsername())
                 .telephone(param.getTelephone())
+                .mail(param.getMail())
+                .password(encryptedPassword)
                 .deptId(param.getDeptId())
                 .status(param.getStatus())
                 .remark(param.getRemark())
@@ -122,7 +124,7 @@ public class SysUserService {
         setOperation(user);
 
         sysUserMapper.insertSelective(user);
-        sysLogService.saveUserLog(null, user);
+//        sysLogService.saveUserLog(null, user);
     }
 
     /**

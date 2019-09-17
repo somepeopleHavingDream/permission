@@ -1,6 +1,7 @@
 package org.yangxin.permission.controller;
 
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/sys/user")
+@Slf4j
 public class SysUserController {
     @Resource
     private SysUserService sysUserService;
@@ -48,6 +50,8 @@ public class SysUserController {
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonData saveUser(UserParam param) {
+        log.info("param: [{}]", param);
+
         sysUserService.save(param);
         return JsonData.success();
     }

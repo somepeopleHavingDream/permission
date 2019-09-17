@@ -31,7 +31,7 @@
     or mail = #{keyword}
   </select>
 
-  <select id="getPageByDeptId" parameterType="map" resultMap="BeanResultMap">
+  <select id="getPageByDeptId" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from sys_user
     where dept_id = #{deptId}
