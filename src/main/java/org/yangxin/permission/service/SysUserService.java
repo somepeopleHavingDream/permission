@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.springframework.stereotype.Service;
 import org.yangxin.permission.beans.PageQuery;
 import org.yangxin.permission.beans.PageResult;
+import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysUserMapper;
 import org.yangxin.permission.exception.ParamException;
 import org.yangxin.permission.model.SysUser;
@@ -131,7 +132,8 @@ public class SysUserService {
      * 操作人、操作人Ip、操作时间
      */
     private void setOperation(SysUser after) {
-        after.setOperator("system");
+        after.setOperator(RequestHolder.getCurrentUser().getUsername());
+//        after.setOperator("system");
         after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }

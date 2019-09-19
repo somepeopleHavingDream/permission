@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysDeptMapper;
 import org.yangxin.permission.dao.SysUserMapper;
 import org.yangxin.permission.exception.ParamException;
@@ -95,7 +96,8 @@ public class SysDeptService {
      * 操作人、操作人Ip、操作时间
      */
     private void setOperation(SysDept after) {
-        after.setOperator("system");
+        after.setOperator(RequestHolder.getCurrentUser().getUsername());
+//        after.setOperator("system");
         after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }

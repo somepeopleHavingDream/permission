@@ -5,6 +5,8 @@ import org.yangxin.permission.model.SysUser;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * request封装类
+ *
  * @author yangxin
  * 2019/09/05 17:36
  */
