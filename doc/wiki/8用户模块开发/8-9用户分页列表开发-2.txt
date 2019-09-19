@@ -1,0 +1,6 @@
+- PageQuery @
+- PageResult @
+- SysUserController @
+- SysUserService @
+
+localhost:18080/admin/index.page
