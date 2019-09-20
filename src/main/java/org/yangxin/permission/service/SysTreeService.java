@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * 部门树Service
+ * 树
  *
  * @author yangxin
  * 2019/09/10 15:34

@@ -1,6 +1,7 @@
 package org.yangxin.permission.service;
 
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ import java.util.Objects;
  * 2019/09/06 10:40
  */
 @Service
+@Slf4j
 public class SysDeptService {
     @Resource
     private SysDeptMapper sysDeptMapper;
@@ -71,14 +73,11 @@ public class SysDeptService {
             throw new ParamException("同一层级下存在相同名称的部门");
         }
 
+        // 更新前的部门记录
         SysDept before = sysDeptMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的部门不存在");
-        // 这里没看懂，为啥要两次校验，可能是源码冗余了
-//        if (checkExist(param.getParentId(), param.getName(), param.getId())) {
-//            throw new ParamException("同一层级下存在相同名称的部门");
-//        }
 
-        // 设值
+        // 为更新后的部门记录对象设值
         SysDept after = SysDept.builder()
                 .id(param.getId())
                 .name(param.getName())
@@ -89,6 +88,8 @@ public class SysDeptService {
         after.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()), param.getParentId()));
         setOperation(after);
 
+        // 递归更新
+        log.info("before: [{}], after: [{}]", before, after);
         updateWithChild(before, after);
 //        sysLogService.saveDeptLog(before, after);
     }
@@ -98,9 +99,7 @@ public class SysDeptService {
      */
     private void setOperation(SysDept after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-//        after.setOperator("system");
         after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-//        after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }
 
@@ -114,7 +113,7 @@ public class SysDeptService {
 
         // 如果该部门的层级更新了，则该部门下的子部门的层级都需要更新
         if (!Objects.equals(after.getLevel(), before.getLevel())) {
-            // 当前层级
+            // 当前子部门的层级
             String curLevel = before.getLevel() + "." + before.getId();
 
             List<SysDept> deptList = sysDeptMapper.getChildDeptListByLevel(curLevel + "%");

@@ -1,5 +1,6 @@
 package org.yangxin.permission.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import java.io.IOException;
  * 2019/09/18 11:29
  */
 @Controller
+@Slf4j
 public class UserController {
     @Resource
     private SysUserService sysUserService;
@@ -52,12 +54,15 @@ public class UserController {
             errorMsg = "用户已被冻结，请联系管理员";
         } else {
             // login success
+            log.info("登录成功, username: [{}]", sysUser.getUsername());
+
             request.getSession().setAttribute("user", sysUser);
             if (StringUtils.isNotBlank(ret)) {
                 response.sendRedirect(ret);
             } else {
                 response.sendRedirect("/admin/index.page");
             }
+            return;
         }
 
         request.setAttribute("error", errorMsg);

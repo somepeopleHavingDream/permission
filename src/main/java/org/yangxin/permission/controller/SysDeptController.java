@@ -64,10 +64,15 @@ public class SysDeptController {
     @RequestMapping("/update.json")
     @ResponseBody
     public JsonData updateDept(DeptParam param) {
+        log.info("param: [{}]", param);
+
         sysDeptService.update(param);
         return JsonData.success();
     }
 
+    /**
+     * 删除部门
+     */
     @RequestMapping("/delete.json")
     @ResponseBody
     public JsonData delete(@RequestParam("id") int id) {
