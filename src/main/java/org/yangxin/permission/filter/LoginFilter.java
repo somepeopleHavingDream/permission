@@ -22,6 +22,9 @@ public class LoginFilter implements Filter {
 
     }
 
+    /**
+     * 拦截没有登录的用户请求
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;

@@ -133,7 +133,6 @@ public class SysUserService {
      */
     private void setOperation(SysUser after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-//        after.setOperator("system");
         after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }
