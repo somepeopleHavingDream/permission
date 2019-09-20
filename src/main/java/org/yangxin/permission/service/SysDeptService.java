@@ -11,6 +11,7 @@ import org.yangxin.permission.exception.ParamException;
 import org.yangxin.permission.model.SysDept;
 import org.yangxin.permission.param.DeptParam;
 import org.yangxin.permission.util.BeanValidator;
+import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.LevelUtil;
 
 import javax.annotation.Resource;
@@ -98,7 +99,8 @@ public class SysDeptService {
     private void setOperation(SysDept after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
 //        after.setOperator("system");
-        after.setOperatorIp("127.0.0.1");
+        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+//        after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }
 

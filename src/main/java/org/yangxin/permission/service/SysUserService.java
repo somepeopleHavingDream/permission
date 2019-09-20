@@ -10,6 +10,7 @@ import org.yangxin.permission.exception.ParamException;
 import org.yangxin.permission.model.SysUser;
 import org.yangxin.permission.param.UserParam;
 import org.yangxin.permission.util.BeanValidator;
+import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.MD5Util;
 import org.yangxin.permission.util.PasswordUtil;
 
@@ -133,7 +134,8 @@ public class SysUserService {
      */
     private void setOperation(SysUser after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperatorIp("127.0.0.1");
+        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+//        after.setOperatorIp("127.0.0.1");
         after.setOperatorTime(new Date());
     }
 
