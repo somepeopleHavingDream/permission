@@ -84,7 +84,7 @@ public class SysTreeService {
     /**
      * 权限模型树
      */
-    private List<AclModuleLevelDto> aclModuleTree() {
+    public List<AclModuleLevelDto> aclModuleTree() {
         List<SysAclModule> aclModuleList = sysAclModuleMapper.getAllAclModule();
         List<AclModuleLevelDto> dtoList = Lists.newArrayList();
         for (SysAclModule aclModule : aclModuleList) {

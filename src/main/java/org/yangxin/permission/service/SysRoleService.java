@@ -30,4 +30,20 @@ public class SysRoleService {
         }
         return sysRoleMapper.getByIdList(roleIdList);
     }
+
+    /**
+     * 通过权限Id，获得角色列表
+     *
+     * @param aclId 权限Id
+     */
+    public List<SysRole> getRoleListByAclId(int aclId) {
+        return null;
+    }
+
+    /**
+     * 通过角色集合，获取用户集合
+     */
+    public Object getUserListByRoleList(List<SysRole> roleList) {
+        return null;
+    }
 }
