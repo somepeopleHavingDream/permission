@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
+import org.yangxin.permission.dao.SysAclMapper;
 import org.yangxin.permission.dao.SysAclModuleMapper;
 import org.yangxin.permission.dao.SysDeptMapper;
 import org.yangxin.permission.dto.AclDto;
@@ -19,6 +20,8 @@ import org.yangxin.permission.util.LevelUtil;
 import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 树
@@ -35,7 +38,14 @@ public class SysTreeService {
     private SysCoreService sysCoreService;
     @Resource
     private SysAclModuleMapper sysAclModuleMapper;
+    @Resource
+    private SysAclMapper sysAclMapper;
 
+    /**
+     * 用户权限树
+     *
+     * @param userId 用户Id
+     */
     public List<AclModuleLevelDto> userAclTree(int userId) {
         List<SysAcl> userAclList = sysCoreService.getUserAclList(userId);
         List<AclDto> aclDtoList = Lists.newArrayList();
@@ -43,6 +53,40 @@ public class SysTreeService {
             AclDto dto = AclDto.adapt(acl);
             dto.setHasAcl(true);
             dto.setChecked(true);
+            aclDtoList.add(dto);
+        }
+        return aclListToTree(aclDtoList);
+    }
+
+    /**
+     * 角色树
+
+     * @param roleId 角色Id
+     */
+    public List<AclModuleLevelDto> roleTree(int roleId) {
+        // 1. 当前用户已分配的权限点
+        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
+        // 2. 当前角色分配的权限点
+        List<SysAcl> roleAclList = sysCoreService.getRoleAclList(roleId);
+        // 3. 当前系统所有权限点
+        List<AclDto> aclDtoList = Lists.newArrayList();
+
+        Set<Integer> userAclIdSet = userAclList.stream()
+                .map(SysAcl::getId)
+                .collect(Collectors.toSet());
+        Set<Integer> roleAclIdSet = roleAclList.stream()
+                .map(SysAcl::getId)
+                .collect(Collectors.toSet());
+
+        List<SysAcl> allAclList = sysAclMapper.getAll();
+        for (SysAcl acl : allAclList) {
+            AclDto dto = AclDto.adapt(acl);
+            if (userAclIdSet.contains(acl.getId())) {
+                dto.setHasAcl(true);
+            }
+            if (roleAclIdSet.contains(acl.getId())) {
+                dto.setChecked(true);
+            }
             aclDtoList.add(dto);
         }
         return aclListToTree(aclDtoList);
