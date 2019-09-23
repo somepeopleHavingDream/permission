@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.yangxin.permission.beans.LogType;
 import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysLogMapper;
+import org.yangxin.permission.model.SysAclModule;
 import org.yangxin.permission.model.SysDept;
 import org.yangxin.permission.model.SysLogWithBLOBs;
 import org.yangxin.permission.model.SysUser;
@@ -24,6 +25,21 @@ public class SysLogService {
     @Resource
     private SysLogMapper sysLogMapper;
 
+    public void saveAclModuleLog(SysAclModule before, SysAclModule after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ACL_MODULE);
+        sysLog.setTargetId(after == null ? before.getId() : after.getId());
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
+//        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+//        sysLog.setOperatorTime(new Date());
+//        sysLog.setStatus(1);
+        setOperationAndStatus(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
     /**
      * 存储部门日志
      *
@@ -38,8 +54,8 @@ public class SysLogService {
         // todo 做到这里要开始重构obj2String方法了
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
-        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        setOperation(sysLog);
+//        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
+        setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
     }
@@ -53,15 +69,16 @@ public class SysLogService {
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
-        setOperation(sysLog);
+        setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
     }
 
     /**
-     * 操作者Ip、操作时间、操作状态
+     * 操作者、Ip、操作时间、操作状态
      */
-    private void setOperation(SysLogWithBLOBs sysLog) {
+    private void setOperationAndStatus(SysLogWithBLOBs sysLog) {
+        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperatorTime(new Date());
         sysLog.setStatus(1);

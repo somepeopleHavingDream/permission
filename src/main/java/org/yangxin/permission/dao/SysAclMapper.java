@@ -19,6 +19,13 @@ public interface SysAclMapper {
     int updateByPrimaryKey(SysAcl record);
 
     /**
+     * 统计特定权限模块下有多少条权限记录
+     *
+     * @param aclModuleId 权限模块Id
+     */
+    int countByAclModuleId(@Param("aclModuleId") int aclModuleId);
+
+    /**
      * 得到全部权限
      */
     List<SysAcl> getAll();

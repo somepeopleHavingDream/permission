@@ -15,10 +15,17 @@
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, code, name, acl_module_id, url, type, seq, status, remark, operator, operator_time, 
     operator_ip
   </sql>
+
+  <select id="countByAclModuleId" parameterType="map" resultType="int">
+    select count(*)
+    from sys_acl
+    where acl_module_id = #{aclModuleId}
+  </select>
 
   <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
