@@ -33,6 +33,7 @@ public class SysAclModuleController {
      */
     @RequestMapping("/acl.page")
     public ModelAndView page() {
+        log.info("进入权限模块管理页面");
         return new ModelAndView("acl");
     }
 
@@ -42,6 +43,8 @@ public class SysAclModuleController {
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonData saveAclModule(AclModuleParam param) {
+        log.info("param: [{}]", param);
+
         sysAclModuleService.save(param);
         return JsonData.success();
     }
