@@ -55,6 +55,8 @@ public class SysAclModuleController {
     @RequestMapping("/update.json")
     @ResponseBody
     public JsonData updateAclModule(AclModuleParam param) {
+        log.info("param: [{}]", param);
+
         sysAclModuleService.update(param);
         return JsonData.success();
     }

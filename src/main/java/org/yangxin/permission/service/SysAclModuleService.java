@@ -87,7 +87,7 @@ public class SysAclModuleService {
 
         // 更新，记录
         updateWithChild(before, after);
-        sysLogService.saveAclModuleLog(before, after);
+//        sysLogService.saveAclModuleLog(before, after);
     }
 
     /**
