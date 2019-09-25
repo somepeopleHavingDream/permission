@@ -3,10 +3,7 @@
     <appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
-<!--                %-4relative [%thread] %-5level %logger - %msg%n-->
-<!--                %date{yyyy-MM-dd HH:mm:ss.SSS} %-5level[%thread]%logger{80}.%method:%L -%msg%n-->
-                %d  %level  %-71c#%-15method : %msg%n
-<!--                %d - %level - %-80logger.%method : -%msg%n-->
+                %d  %level  %-75c#%-15method : %msg%n
             </pattern>
         </layout>
     </appender>
@@ -18,8 +15,8 @@
         </filter>
         <encoder>
             <pattern>
-<!--                %d - %level - %c.%method - %msg%n-->
-                %d  %level  %-70c#%-15method : %msg%n
+<!--                %d  %level  %-70c#%-15method : %msg%n-->
+                %d  %level  %-75c#%-15method : %msg%n
             </pattern>
         </encoder>
         <!-- 滚动策略 -->
@@ -34,8 +31,8 @@
         </filter>
         <encoder>
             <pattern>
-<!--                %d - %level - %c.%method - %msg%n-->
-                %d  %level  %-70c#%-15method : %msg%n
+<!--                %d  %level  %-70c#%-15method : %msg%n-->
+                %d  %level  %-75c#%-15method : %msg%n
             </pattern>
         </encoder>
         <!-- 滚动策略 -->

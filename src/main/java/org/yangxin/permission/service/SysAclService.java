@@ -52,7 +52,7 @@ public class SysAclService {
         setOperation(acl);
 
         sysAclMapper.insertSelective(acl);
-        sysLogService.saveAclLog(null, acl);
+//        sysLogService.saveAclLog(null, acl);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SysAclService {
 
         // 数据库操作
         sysAclMapper.updateByPrimaryKeySelective(after);
-        sysLogService.saveAclLog(before, after);
+//        sysLogService.saveAclLog(before, after);
     }
 
     /**
