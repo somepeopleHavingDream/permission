@@ -11,9 +11,24 @@
         <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime"/>
         <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp"/>
     </resultMap>
+
     <sql id="Base_Column_List">
     id, name, type, status, remark, operator, operator_time, operator_ip
-  </sql>
+    </sql>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_role
+    </select>
+
+    <select id="countByName" parameterType="map" resultType="int">
+        select count(*)
+        from sys_role
+        where name = #{name}
+        <if test="id != null">
+            and id != #{id}
+        </if>
+    </select>
 
     <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
         select

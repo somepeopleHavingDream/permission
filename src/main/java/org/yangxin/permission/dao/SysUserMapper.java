@@ -20,6 +20,11 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
 
     /**
+     * 批量获得用户记录
+     */
+    List<SysUser> getByIdList(@Param("idList") List<Integer> idList);
+
+    /**
      * 得到全部的用户记录
      */
     List<SysUser> getAll();

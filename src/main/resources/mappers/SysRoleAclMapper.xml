@@ -9,9 +9,16 @@
         <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime"/>
         <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp"/>
     </resultMap>
+
     <sql id="Base_Column_List">
     id, role_id, acl_id, operator, operator_time, operator_ip
-  </sql>
+    </sql>
+
+    <select id="getRoleIdListByAclId" parameterType="int" resultType="int">
+        select role_id
+        from sys_role_acl
+        where acl_id = #{aclId}
+    </select>
 
     <select id="getAclIdListByRoleIdList" parameterType="map" resultType="int">
         select acl_id
@@ -29,10 +36,25 @@
         from sys_role_acl
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <delete id="deleteByRoleId" parameterType="int">
+        delete from sys_role_acl
+        where role_id = #{roleId}
+    </delete>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_role_acl
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+    <insert id="batchInsert" parameterType="map">
+        insert into sys_role_acl(role_id, acl_id, operator, operate_time, operate_ip)
+        values
+        <foreach collection="roleAclList" item="roleAcl" separator=",">
+            (#{roleAcl.roleId}, #{roleAcl.aclId}, #{roleAcl.operator}, #{roleAcl.operateTime}, #{roleAcl.operateIp})
+        </foreach>
+    </insert>
+
     <insert id="insert" parameterType="org.yangxin.permission.model.SysRoleAcl">
     insert into sys_role_acl (id, role_id, acl_id, 
       operator, operator_time, operator_ip

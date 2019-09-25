@@ -10,6 +10,7 @@ import org.yangxin.permission.util.JsonMapper;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 日志Service
@@ -22,6 +23,45 @@ public class SysLogService {
     @Resource
     private SysLogMapper sysLogMapper;
 
+    void saveRoleUserLog(int roleId, List<Integer> before, List<Integer> after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ROLE_USER);
+        sysLog.setTargetId(roleId);
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        setOperationAndStatus(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    void saveRoleAclLog(int roleId, List<Integer> before, List<Integer> after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ROLE_ACL);
+        sysLog.setTargetId(roleId);
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        setOperationAndStatus(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    /**
+     * 存储角色表日志
+     */
+    void saveRoleLog(SysRole before, SysRole after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ROLE);
+        sysLog.setTargetId(after == null ? before.getId() : after.getId());
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        setOperationAndStatus(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    /**
+     * 存储权限模块表日志
+     */
     public void saveAclModuleLog(SysAclModule before, SysAclModule after) {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ACL_MODULE);
