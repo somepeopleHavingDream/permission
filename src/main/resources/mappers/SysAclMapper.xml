@@ -21,6 +21,24 @@
     operator_ip
   </sql>
 
+  <select id="getPageByAclModuleId" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_acl
+    where acl_module_id = #{aclModuleId}
+    order by seq asc, name asc
+    limit #{page.offset}, #{page.pageSize}
+  </select>
+
+  <select id="countByNameAndAclModuleId" parameterType="map" resultType="int">
+    select count(*)
+    from sys_acl
+    where acl_module_id = #{aclModuleId}
+    and name = #{name}
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
   <select id="countByAclModuleId" parameterType="map" resultType="int">
     select count(*)
     from sys_acl

@@ -4,10 +4,7 @@ import org.springframework.stereotype.Service;
 import org.yangxin.permission.beans.LogType;
 import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysLogMapper;
-import org.yangxin.permission.model.SysAclModule;
-import org.yangxin.permission.model.SysDept;
-import org.yangxin.permission.model.SysLogWithBLOBs;
-import org.yangxin.permission.model.SysUser;
+import org.yangxin.permission.model.*;
 import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.JsonMapper;
 
@@ -32,9 +29,6 @@ public class SysLogService {
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-//        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-//        sysLog.setOperatorTime(new Date());
-//        sysLog.setStatus(1);
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -50,11 +44,11 @@ public class SysLogService {
         // 设置SysLogWithBLOS对象
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_DEPT);
+//        setSysLogField(before, after, sysLog);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         // todo 做到这里要开始重构obj2String方法了
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
-//        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -66,6 +60,20 @@ public class SysLogService {
     public void saveUserLog(SysUser before, SysUser after) {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_USER);
+        sysLog.setTargetId(after == null ? before.getId() : after.getId());
+        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        setOperationAndStatus(sysLog);
+
+        sysLogMapper.insertSelective(sysLog);
+    }
+
+    /**
+     * 保存权限点日志
+     */
+    public void saveAclLog(SysAcl before, SysAcl after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ACL);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
