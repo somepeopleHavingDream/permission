@@ -56,7 +56,8 @@
         insert into sys_role_user(role_id, user_id, operator, operate_time, operate_ip)
         values
         <foreach collection="roleUserList" item="roleUser" separator=",">
-            (#{roleUser.roleId}, #{roleUser.userId}, #{roleUser.operator}, #{roleUser.operateTime}, #{roleUser.operateIp})
+            (#{roleUser.roleId}, #{roleUser.userId}, #{roleUser.operator}, #{roleUser.operateTime},
+            #{roleUser.operateIp})
         </foreach>
     </insert>
 

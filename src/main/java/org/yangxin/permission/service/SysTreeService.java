@@ -71,56 +71,82 @@ public class SysTreeService {
         // 3. 当前系统所有权限点
         List<AclDto> aclDtoList = Lists.newArrayList();
 
+        // 当前用户已分配的权限点
         Set<Integer> userAclIdSet = userAclList.stream()
                 .map(SysAcl::getId)
                 .collect(Collectors.toSet());
+        // 当前角色分配的权限点
         Set<Integer> roleAclIdSet = roleAclList.stream()
                 .map(SysAcl::getId)
                 .collect(Collectors.toSet());
 
+        // 这里其实有个小技巧，如果数据库里相应的记录为空，mybatis返回多条数据时，集合始终不会为null的。mybatis是先创建一个集合，再将数据库中对应记录设值到集合中
         List<SysAcl> allAclList = sysAclMapper.getAll();
         for (SysAcl acl : allAclList) {
             AclDto dto = AclDto.adapt(acl);
+
+            // 如果该用户拥有这个权限，那我们可以让他看到这个权限
             if (userAclIdSet.contains(acl.getId())) {
                 dto.setHasAcl(true);
             }
+
+            // 如果该角色拥有这个权限，那我们将这个权限默认选中
             if (roleAclIdSet.contains(acl.getId())) {
                 dto.setChecked(true);
             }
             aclDtoList.add(dto);
         }
+
         return aclListToTree(aclDtoList);
     }
 
+    /**
+     * 权限列表转成树，返回AclModuleLevel对象列表
+     */
     private List<AclModuleLevelDto> aclListToTree(List<AclDto> aclDtoList) {
+        // 判空
         if (CollectionUtils.isEmpty(aclDtoList)) {
             return Lists.newArrayList();
         }
 
+        // 获得权限模型树，这里aclModuleLevelList是指最顶层的权限模型列表
         List<AclModuleLevelDto> aclModuleLevelList = aclModuleTree();
 
+        // 构建权限模型id -> 权限的映射
         Multimap<Integer, AclDto> moduleIdAclMap = ArrayListMultimap.create();
         for (AclDto acl : aclDtoList) {
             if (acl.getStatus() == 1) {
                 moduleIdAclMap.put(acl.getAclModuleId(), acl);
             }
         }
+
+        // 将权限带顺序地绑定到各个权限模块下
         bindAclsWithOrder(aclModuleLevelList, moduleIdAclMap);
+
         return aclModuleLevelList;
     }
 
+    /**
+     * 将权限带顺序地绑定到各个权限模块下
+     */
     private void bindAclsWithOrder(List<AclModuleLevelDto> aclModuleLevelList,
                                    Multimap<Integer, AclDto> moduleIdAclMap) {
+        // 判空
         if (CollectionUtils.isEmpty(aclModuleLevelList)) {
             return;
         }
 
         for (AclModuleLevelDto dto : aclModuleLevelList) {
+            // 该权限模块下的权限
             List<AclDto> aclDtoList = (List<AclDto>) moduleIdAclMap.get(dto.getId());
+
+            // 将aclDtoList中的对象按序号排序、并将aclDtoList设置进AclModuleLevelDto对象中
             if (CollectionUtils.isNotEmpty(aclDtoList)) {
                 aclDtoList.sort(Comparator.comparingInt(SysAcl::getSeq));
                 dto.setAclList(aclDtoList);
             }
+
+            // 递归绑定
             bindAclsWithOrder(dto.getAclModuleList(), moduleIdAclMap);
         }
     }
@@ -129,14 +155,22 @@ public class SysTreeService {
      * 权限模型树
      */
     public List<AclModuleLevelDto> aclModuleTree() {
+        // 获得所有权限模型记录
         List<SysAclModule> aclModuleList = sysAclModuleMapper.getAllAclModule();
+
+        // 将所有的SysAclModule对象转换成AclModuleLevelDto对象
         List<AclModuleLevelDto> dtoList = Lists.newArrayList();
         for (SysAclModule aclModule : aclModuleList) {
             dtoList.add(AclModuleLevelDto.adapt(aclModule));
         }
+
+        // 权限模型列表转树
         return aclModuleListToTree(dtoList);
     }
 
+    /**
+     * 权限模型列表转树
+     */
     private List<AclModuleLevelDto> aclModuleListToTree(List<AclModuleLevelDto> dtoList) {
         // 判空
         if (CollectionUtils.isEmpty(dtoList)) {
@@ -144,7 +178,9 @@ public class SysTreeService {
         }
 
         // level -> [aclmodule1, aclmodul2, ...] Map<String, List<Object>>
+        // level -> List<AclModuleLevelDto>
         Multimap<String, AclModuleLevelDto> levelAclModuleMap = ArrayListMultimap.create();
+        // 根权限模型列表
         List<AclModuleLevelDto> rootList = Lists.newArrayList();
 
         for (AclModuleLevelDto dto : dtoList) {
@@ -154,13 +190,14 @@ public class SysTreeService {
             }
         }
 
+        // 将根权限模型列表按照序号排序
         rootList.sort(Comparator.comparingInt(SysAclModule::getSeq));
         transformAclModuleTree(rootList, LevelUtil.ROOT, levelAclModuleMap);
         return rootList;
     }
 
     /**
-     * 转换成权限模型树
+     * 递归转换成权限模型树
      */
     private void transformAclModuleTree(List<AclModuleLevelDto> dtoList,
                                         String level,

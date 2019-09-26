@@ -40,7 +40,7 @@ public class SysCoreService {
      * @param roleId 角色Id
      */
     List<SysAcl> getRoleAclList(int roleId) {
-        List<Integer> aclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(Lists.<Integer>newArrayList(roleId));
+        List<Integer> aclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(Lists.newArrayList(roleId));
         if (CollectionUtils.isEmpty(aclIdList)) {
             return Lists.newArrayList();
         }
@@ -104,6 +104,7 @@ public class SysCoreService {
      * 获得当前用户权限列表
      */
     List<SysAcl> getCurrentUserAclList() {
+        // 当前用户不可能为null，也不应该为null
         Integer userId = RequestHolder.getCurrentUser().getId();
         return getUserAclList(userId);
     }
@@ -114,7 +115,7 @@ public class SysCoreService {
      * @param userId 用户Id
      */
     List<SysAcl> getUserAclList(int userId) {
-        // 超级用户
+        // 超级用户，可以拿到所有权限
         if (isSuperAdmin()) {
             return sysAclMapper.getAll();
         }
@@ -125,7 +126,7 @@ public class SysCoreService {
             return Lists.newArrayList();
         }
 
-        // 获得该用户对应的所有权限
+        // 通过该用户拥有的角色，获得该用户对应的所有权限
         List<Integer> userAclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(userRoleIdList);
         if (CollectionUtils.isEmpty(userAclIdList)) {
             return Lists.newArrayList();
@@ -142,6 +143,8 @@ public class SysCoreService {
         // 这里是我自己定义了一个假的超级管理员规则，实际中根据项目进行修改
         // 可以是配置文件获取，可以指定某个用户，也可以指定某个角色
         SysUser sysUser = RequestHolder.getCurrentUser();
+
+        // 新增用户时，mail字段是不允许为null的
         return sysUser.getMail().contains("admin");
     }
 }
