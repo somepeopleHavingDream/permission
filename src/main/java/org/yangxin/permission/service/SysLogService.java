@@ -5,6 +5,7 @@ import org.yangxin.permission.beans.LogType;
 import org.yangxin.permission.common.RequestHolder;
 import org.yangxin.permission.dao.SysLogMapper;
 import org.yangxin.permission.model.*;
+import org.yangxin.permission.util.GsonUtil;
 import org.yangxin.permission.util.IpUtil;
 import org.yangxin.permission.util.JsonMapper;
 
@@ -52,8 +53,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ROLE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
