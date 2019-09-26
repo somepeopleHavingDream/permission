@@ -77,7 +77,7 @@ public class SysRoleController {
     /**
      * 获得列表
      */
-    @RequestMapping("/list.page")
+    @RequestMapping("/list.json")
     @ResponseBody
     public JsonData list() {
         return JsonData.success(sysRoleService.getAll());
