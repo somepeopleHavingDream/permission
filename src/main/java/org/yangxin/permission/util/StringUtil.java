@@ -29,6 +29,7 @@ public class StringUtil {
         } else {
             List<String> strList = Arrays.asList(str.split(","));
             return strList.stream()
+                    .filter(e -> !("").equals(e))
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
         }
