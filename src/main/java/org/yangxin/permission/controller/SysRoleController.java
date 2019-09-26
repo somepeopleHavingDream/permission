@@ -115,7 +115,8 @@ public class SysRoleController {
                                @RequestParam(value = "aclIds", required = false, defaultValue = "") String aclIds) {
         log.info("roleId: [{}], aclIds: [{}]", roleId, aclIds);
 
-        List<Integer> aclIdList = StringUtil.splitToListInt(aclIds);
+        List<Integer> aclIdList = StringUtil.splitToIntList(aclIds);
+//        List<Integer> aclIdList = StringUtil.splitToListInt(aclIds);
         sysRoleAclService.changeRoleAcls(roleId, aclIdList);
         return JsonData.success();
     }
@@ -127,7 +128,8 @@ public class SysRoleController {
         log.info("roleId: [{}], userIds: [{}]", roleId, userIds);
 
 
-        List<Integer> userIdList = StringUtil.splitToListInt(userIds);
+        List<Integer> userIdList = StringUtil.splitToIntList(userIds);
+//        List<Integer> userIdList = StringUtil.splitToListInt(userIds);
         sysRoleUserService.changeRoleUsers(roleId, userIdList);
         return JsonData.success();
     }

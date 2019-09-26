@@ -12,6 +12,7 @@ import org.yangxin.permission.dao.SysRoleAclMapper;
 import org.yangxin.permission.dao.SysRoleUserMapper;
 import org.yangxin.permission.model.SysAcl;
 import org.yangxin.permission.model.SysUser;
+import org.yangxin.permission.util.GsonUtil;
 import org.yangxin.permission.util.JsonMapper;
 
 import javax.annotation.Resource;
@@ -90,7 +91,8 @@ public class SysCoreService {
         if (StringUtils.isBlank(cacheValue)) {
             List<SysAcl> aclList = getCurrentUserAclList();
             if (CollectionUtils.isNotEmpty(aclList)) {
-                sysCacheService.saveCache(JsonMapper.obj2String(aclList),
+                sysCacheService.saveCache(GsonUtil.obj2String(aclList),
+//                sysCacheService.saveCache(JsonMapper.obj2String(aclList),
                         600, CacheKeyConstants.USER_ACLS,
                         String.valueOf(userId));
             }

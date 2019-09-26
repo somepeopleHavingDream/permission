@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.yangxin.permission.beans.CacheKeyConstants;
-import org.yangxin.permission.util.JsonMapper;
+import org.yangxin.permission.util.GsonUtil;
 import redis.clients.jedis.ShardedJedis;
 
 import javax.annotation.Resource;
@@ -29,7 +29,8 @@ public class SysCacheService {
             shardedJedis = redisPool.instance();
             shardedJedis.setex(cacheKey, timeoutSeconds, toSavedValue);
         } catch (Exception e) {
-            log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
+            log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
+//            log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
         } finally {
             redisPool.safeClose(shardedJedis);
         }
@@ -45,7 +46,8 @@ public class SysCacheService {
             shardedJedis = redisPool.instance();
             return shardedJedis.get(cacheKey);
         } catch (Exception e) {
-            log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
+            log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
+//            log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
             return null;
         } finally {
             redisPool.safeClose(shardedJedis);

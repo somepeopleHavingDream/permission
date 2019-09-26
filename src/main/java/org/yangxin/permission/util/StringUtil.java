@@ -1,7 +1,7 @@
 package org.yangxin.permission.util;
 
-import com.google.common.base.Splitter;
-
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,14 +12,25 @@ import java.util.stream.Collectors;
  * 2019/09/25 11:40
  */
 public class StringUtil {
-    public static List<Integer> splitToListInt(String str) {
-        List<String> strList = Splitter.on(",")
-                .trimResults()
-                .omitEmptyStrings()
-                .splitToList(str);
+//    public static List<Integer> splitToListInt(String str) {
+//        List<String> strList = Splitter.on(",")
+//                .trimResults()
+//                .omitEmptyStrings()
+//                .splitToList(str);
+//
+//        return strList.stream()
+//                .map(Integer::parseInt)
+//                .collect(Collectors.toList());
+//    }
 
-        return strList.stream()
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
+    public static List<Integer> splitToIntList(String str) {
+        if (str == null) {
+            return Collections.emptyList();
+        } else {
+            List<String> strList = Arrays.asList(str.split(","));
+            return strList.stream()
+                    .map(Integer::parseInt)
+                    .collect(Collectors.toList());
+        }
     }
 }

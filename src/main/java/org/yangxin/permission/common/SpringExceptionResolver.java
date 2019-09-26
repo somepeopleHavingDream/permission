@@ -41,6 +41,7 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
                 mv = new ModelAndView(new MappingJackson2JsonView());
                 mv.addObject(result.toMap());
             } else {
+//                log.error("unknown json exception, url: ", url, e);
                 log.error("unknown json exception, url: " + url, e);
 
                 JsonData result = JsonData.fail(defaultMsg);

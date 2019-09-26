@@ -2,6 +2,7 @@ package org.yangxin.permission.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.yangxin.permission.util.IpUtil;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -22,6 +24,7 @@ import java.util.Set;
  * 2019/09/25 10:43
  */
 @Service
+@Slf4j
 public class SysRoleAclService {
     @Resource
     private SysRoleAclMapper sysRoleAclMapper;
@@ -33,47 +36,52 @@ public class SysRoleAclService {
      * 更改角色权限
      */
     public void changeRoleAcls(Integer roleId, List<Integer> aclIdList) {
-        List<Integer> originAclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(Lists.newArrayList());
-        if (originAclIdList.size() == aclIdList.size()) {
+        // 获得该角色原来所拥有的全部权限Id
+        List<Integer> originAclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(Lists.newArrayList(roleId));
+        log.info("originAclIdList.size: [{}]", originAclIdList.size());
+
+        // 目前这段代码看起来没啥作用，它也没有启动删除权限的作用
+        if (Objects.equals(aclIdList.size(), originAclIdList.size())) {
+//        if (originAclIdList.size() == aclIdList.size()) {
             Set<Integer> originAclIdSet = Sets.newHashSet(originAclIdList);
             Set<Integer> aclIdSet = Sets.newHashSet(aclIdList);
+            log.info("originAclIdSet: [{}]", originAclIdSet);
+            log.info("aclIdSet: [{}]", aclIdSet);
+
             originAclIdSet.removeAll(aclIdSet);
             if (CollectionUtils.isEmpty(originAclIdSet)) {
                 return;
             }
         }
+
         updateRoleAcls(roleId, aclIdList);
         sysLogService.saveRoleAclLog(roleId, originAclIdList, aclIdList);
     }
 
     @Transactional
     public void updateRoleAcls(int roleId, List<Integer> aclIdList) {
+        // 删除角色权限表中以前的记录
         sysRoleAclMapper.deleteByRoleId(roleId);
 
+        // 判空
         if (CollectionUtils.isEmpty(aclIdList)) {
             return;
         }
 
-       List<SysRoleAcl> roleAclList = Lists.newArrayList();
+        // 构建角色权限集合
+        List<SysRoleAcl> roleAclList = Lists.newArrayList();
         for (Integer aclId : aclIdList) {
-            SysRoleAcl.builder()
+            SysRoleAcl roleAcl = SysRoleAcl.builder()
                     .roleId(roleId)
                     .aclId(aclId)
                     .operator(RequestHolder.getCurrentUser().getUsername())
                     .operatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()))
                     .operatorTime(new Date())
                     .build();
+            roleAclList.add(roleAcl);
         }
+
+        // 数据库操作，批量操作
         sysRoleAclMapper.batchInsert(roleAclList);
-
     }
-
-//    private void saveRoleAclLog(int roleId, List<Integer> before, List<Integer> after) {
-//        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
-//        sysLog.setType(LogType.TYPE_ROLE_ACL);
-//        sysLog.setTargetId(roleId);
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
-//
-//    }
 }

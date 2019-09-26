@@ -6,12 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.yangxin.permission.model.SysUser;
 import org.yangxin.permission.service.SysUserService;
+import org.yangxin.permission.util.MD5Util;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 游客Controller
@@ -50,6 +52,8 @@ public class UserController {
             errorMsg = "密码不可以为空";
         } else if (sysUser == null) {
             errorMsg = "查询不到指定的用户";
+        } else if (!Objects.equals(sysUser.getPassword(), MD5Util.encrypt(password))) {
+            errorMsg = "用户名或密码错误";
         } else if (sysUser.getStatus() != 1) {
             errorMsg = "用户已被冻结，请联系管理员";
         } else {

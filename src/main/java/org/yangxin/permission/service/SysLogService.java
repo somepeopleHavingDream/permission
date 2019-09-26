@@ -7,7 +7,6 @@ import org.yangxin.permission.dao.SysLogMapper;
 import org.yangxin.permission.model.*;
 import org.yangxin.permission.util.GsonUtil;
 import org.yangxin.permission.util.IpUtil;
-import org.yangxin.permission.util.JsonMapper;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -28,8 +27,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ROLE_USER);
         sysLog.setTargetId(roleId);
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -39,8 +40,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ROLE_ACL);
         sysLog.setTargetId(roleId);
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -69,8 +72,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ACL_MODULE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         setOperationAndStatus(sysLog);
 
@@ -89,9 +94,10 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_DEPT);
 //        setSysLogField(before, after, sysLog);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        // todo 做到这里要开始重构obj2String方法了
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -104,8 +110,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_USER);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);
@@ -118,8 +126,10 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ACL);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         setOperationAndStatus(sysLog);
 
         sysLogMapper.insertSelective(sysLog);

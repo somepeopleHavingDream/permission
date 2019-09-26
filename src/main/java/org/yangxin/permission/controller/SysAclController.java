@@ -38,6 +38,8 @@ public class SysAclController {
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonData saveAcl(AclParam param) {
+        log.info("param: [{}]", param);
+
         sysAclService.save(param);
         return JsonData.success();
     }
@@ -48,6 +50,8 @@ public class SysAclController {
     @RequestMapping("/update.json")
     @ResponseBody
     public JsonData updateAcl(AclParam param) {
+        log.info("param: [{}]", param);
+
         sysAclService.update(param);
         return JsonData.success();
     }
@@ -55,12 +59,16 @@ public class SysAclController {
     @RequestMapping("page.json")
     @ResponseBody
     public JsonData list(@RequestParam("aclModuleId") Integer aclModuleId, PageQuery pageQuery) {
+        log.info("aclModuleId: [{}]", aclModuleId);
+
         return JsonData.success(sysAclService.getPageByAclModuleId(aclModuleId, pageQuery));
     }
 
     @RequestMapping("acls.json")
     @ResponseBody
     public JsonData acls(@RequestParam("aclId") int aclId) {
+        log.info("aclId: [{}]", aclId);
+
         Map<String, Object> map = Maps.newHashMap();
         List<SysRole> roleList = sysRoleService.getRoleListByAclId(aclId);
         map.put("roles", roleList);
