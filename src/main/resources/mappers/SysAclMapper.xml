@@ -21,6 +21,12 @@
     operator_ip
   </sql>
 
+  <select id="getByUrl" parameterType="string" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_acl
+    where url = #{url}
+  </select>
+
   <select id="getPageByAclModuleId" parameterType="map" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from sys_acl

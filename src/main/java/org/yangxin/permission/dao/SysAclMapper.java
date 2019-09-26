@@ -20,6 +20,11 @@ public interface SysAclMapper {
     int updateByPrimaryKey(SysAcl record);
 
     /**
+     * 根据url获得权限记录
+     */
+    List<SysAcl> getByUrl(@Param("url") String url);
+
+    /**
      * 通过权限模型Id，分页查询权限记录
      *
      * @param aclModuleId 权限模型Id

@@ -16,6 +16,8 @@ import org.yangxin.permission.util.JsonMapper;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author yangxin
@@ -37,7 +39,7 @@ public class SysCoreService {
      *
      * @param roleId 角色Id
      */
-    public List<SysAcl> getRoleAclList(int roleId) {
+    List<SysAcl> getRoleAclList(int roleId) {
         List<Integer> aclIdList = sysRoleAclMapper.getAclIdListByRoleIdList(Lists.<Integer>newArrayList(roleId));
         if (CollectionUtils.isEmpty(aclIdList)) {
             return Lists.newArrayList();
@@ -46,9 +48,43 @@ public class SysCoreService {
     }
 
     /**
+     * 获得该Url的权限
+     */
+    public boolean hasUrlAcl(String url) {
+        if (isSuperAdmin()) {
+            return true;
+        }
+
+        List<SysAcl> aclList = sysAclMapper.getByUrl(url);
+        if (CollectionUtils.isEmpty(aclList)) {
+            return true;
+        }
+
+        List<SysAcl> userAclList = getCurrentUserAclListFromCache();
+        Set<Integer> userAclIdSet = userAclList.stream()
+                .map(SysAcl::getId)
+                .collect(Collectors.toSet());
+
+        // 规则：只要有一个权限点有权限，那么我们就认为有访问权限
+        boolean hasValidAcl = false;
+        for (SysAcl acl : aclList) {
+            // 判断一个用户是否具有某个权限点的访问权限
+            if (acl == null || acl.getStatus() != 1) {
+                // 权限点无效
+                continue;
+            }
+            hasValidAcl = true;
+            if (userAclIdSet.contains(acl.getId())) {
+                return true;
+            }
+        }
+        return !hasValidAcl;
+    }
+
+    /**
      * 从缓存中获得当前用户权限列表
      */
-    public List<SysAcl> getCurrentUserAclListFromCache() {
+    private List<SysAcl> getCurrentUserAclListFromCache() {
         Integer userId = RequestHolder.getCurrentUser().getId();
         String cacheValue = sysCacheService.getFromCache(CacheKeyConstants.USER_ACLS, String.valueOf(userId));
         if (StringUtils.isBlank(cacheValue)) {
