@@ -15,6 +15,6 @@ public class GsonUtil {
      * 对象转Json字符串
      */
     public static <T> String obj2String(T src) {
-        return src == null ? null : gson.toJson(src);
+        return gson.toJson(src);
     }
 }
