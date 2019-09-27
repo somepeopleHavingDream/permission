@@ -160,7 +160,9 @@ public class SysDeptService {
      * @param deptId 部门Id
      */
     public void delete(int deptId) {
+        // 获得待删除的部门记录
         SysDept dept = sysDeptMapper.selectByPrimaryKey(deptId);
+        log.info("dept: [{}]", dept);
         Preconditions.checkNotNull(dept, "待删除的部门不存在，无法删除");
 
         if (sysDeptMapper.countByParentId(dept.getId()) > 0) {

@@ -27,21 +27,20 @@ public class SpringExceptionResolver implements HandlerExceptionResolver {
                                          HttpServletResponse httpServletResponse,
                                          Object o,
                                          Exception e) {
-        log.info("resolveException is running...");
-
         String url = httpServletRequest.getRequestURL().toString();
         ModelAndView mv;
         String defaultMsg = "System error";
 
         // 这里我们要求项目中所有请求json数据，都使用.json结尾
+        log.info("url: [{}]", url);
         if (url.endsWith(".json")) {
             if (e instanceof PermissionException || e instanceof ParamException) {
                 JsonData result = JsonData.fail(e.getMessage());
+
                 // 设置返回的数据为json类型，也可以不设置，返回对象
                 mv = new ModelAndView(new MappingJackson2JsonView());
                 mv.addObject(result.toMap());
             } else {
-//                log.error("unknown json exception, url: ", url, e);
                 log.error("unknown json exception, url: " + url, e);
 
                 JsonData result = JsonData.fail(defaultMsg);

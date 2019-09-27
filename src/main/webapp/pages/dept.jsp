@@ -226,12 +226,12 @@
         function recursiveRenderDept(deptList) {
             if(deptList && deptList.length > 0) {
                 $(deptList).each(function (i, dept) {
-                    deptMap[dept.id] = dept;
-                    if (dept.deptList.length > 0) {
-                        var rendered = Mustache.render(deptListTemplate, {deptList: dept.deptList});
-                        $("#dept_" + dept.id).append(rendered);
-                        recursiveRenderDept(dept.deptList);
-                    }
+                     deptMap[dept.id] = dept;
+                     if (dept.deptList.length > 0) {
+                         var rendered = Mustache.render(deptListTemplate, {deptList: dept.deptList});
+                         $("#dept_" + dept.id).append(rendered);
+                         recursiveRenderDept(dept.deptList);
+                     }
                 })
             }
         }
@@ -262,7 +262,7 @@
                                 showMessage("删除部门[" + deptName + "]", "操作成功", true);
                                 loadDeptTree();
                             } else {
-                                showMessage("删除部门[" + deptName + "]", result.msg, false);
+                                showMessage("删除部门[" + deptName + "]", result.hashMap.msg, false);
                             }
                         }
                     });
@@ -295,8 +295,10 @@
                         "更新": function(e) {
                             e.preventDefault();
                             updateDept(false, function (data) {
+                                // console.log("1");
                                 $("#dialog-dept-form").dialog("close");
                             }, function (data) {
+                                // console.log("2");
                                 showMessage("更新部门", data.msg, false);
                             })
                         },
@@ -392,10 +394,14 @@
                     "添加": function(e) {
                         e.preventDefault();
                         updateUser(true, function (data) {
+                            // console.log("5");
+                            // console.log(data);
                             $("#dialog-user-form").dialog("close");
                             loadUserList(lastClickDeptId);
                         }, function (data) {
-                            showMessage("新增用户", data.msg, false);
+                            // console.log("6");
+                            // console.log(data);
+                            showMessage("新增用户", data.hashMap.msg, false);
                         })
                     },
                     "取消": function () {
@@ -416,7 +422,7 @@
                     },
                     success: function(result) {
                         if (result.ret) {
-                            console.log(result)
+                            // console.log(result)
                         } else {
                             showMessage("获取用户权限数据", result.msg, false);
                         }
@@ -481,8 +487,10 @@
                     "添加": function(e) {
                         e.preventDefault();
                         updateDept(true, function (data) {
+                            // console.log("3");
                             $("#dialog-dept-form").dialog("close");
                         }, function (data) {
+                            // console.log("3");
                             showMessage("新增部门", data.msg, false);
                         })
                     },
@@ -539,6 +547,7 @@
                 data: $("#deptForm").serializeArray(),
                 type: 'POST',
                 success: function(result) {
+                    // console.log("result: ", result);
                     if (result.ret) {
                         loadDeptTree();
                         if (successCallback) {

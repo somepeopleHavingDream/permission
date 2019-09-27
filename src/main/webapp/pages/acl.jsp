@@ -403,7 +403,7 @@
                                 showMessage("删除权限模块[" + aclModuleName + "]", "操作成功", true);
                                 loadAclModuleTree();
                             } else {
-                                showMessage("删除权限模块[" + aclModuleName + "]", result.msg, false);
+                                showMessage("删除权限模块[" + aclModuleName + "]", result.hashMap.msg, false);
                             }
                         }
                     });
