@@ -79,6 +79,8 @@ public class SysUserController {
     @RequestMapping("/acls.json")
     @ResponseBody
     public JsonData acls(@RequestParam("userId") int userId) {
+        log.info("userId: [{}]", userId);
+
         Map<String, Object> map = Maps.newHashMap();
         map.put("acls", sysTreeService.userAclTree(userId));
         map.put("roles", sysRoleService.getRoleListByUserId(userId));

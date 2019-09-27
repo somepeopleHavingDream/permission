@@ -26,6 +26,9 @@ public class AclDto extends SysAcl {
      */
     private boolean hasAcl = false;
 
+    /**
+     * 转换方法
+     */
     public static AclDto adapt(SysAcl acl) {
         AclDto dto = new AclDto();
         BeanUtils.copyProperties(acl, dto);

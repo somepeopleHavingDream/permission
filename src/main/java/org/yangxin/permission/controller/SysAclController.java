@@ -69,8 +69,11 @@ public class SysAclController {
     public JsonData acls(@RequestParam("aclId") int aclId) {
         log.info("aclId: [{}]", aclId);
 
-        Map<String, Object> map = Maps.newHashMap();
+        // 获得该权限点所对应的全部角色记录
         List<SysRole> roleList = sysRoleService.getRoleListByAclId(aclId);
+        log.info("roleList.size: [{}]", roleList);
+
+        Map<String, Object> map = Maps.newHashMap();
         map.put("roles", roleList);
         map.put("users", sysRoleService.getUserListByRoleList(roleList));
 

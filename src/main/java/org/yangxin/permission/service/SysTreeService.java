@@ -47,7 +47,11 @@ public class SysTreeService {
      * @param userId 用户Id
      */
     public List<AclModuleLevelDto> userAclTree(int userId) {
+        // 获得当前用户拥有的全部权限
         List<SysAcl> userAclList = sysCoreService.getUserAclList(userId);
+        log.info("userAclList.size: [{}]", userAclList.size());
+
+        // 将SysAcl对象转换成AclDto对象
         List<AclDto> aclDtoList = Lists.newArrayList();
         for (SysAcl acl : userAclList) {
             AclDto dto = AclDto.adapt(acl);
@@ -55,6 +59,8 @@ public class SysTreeService {
             dto.setChecked(true);
             aclDtoList.add(dto);
         }
+
+        // AclDto集合转树
         return aclListToTree(aclDtoList);
     }
 
