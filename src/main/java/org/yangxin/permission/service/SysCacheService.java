@@ -9,6 +9,12 @@ import redis.clients.jedis.ShardedJedis;
 
 import javax.annotation.Resource;
 
+/**
+ * 缓存Service
+ *
+ * @author yangxin
+ * 2019/09/27 16:51
+ */
 @Service
 @Slf4j
 public class SysCacheService {
