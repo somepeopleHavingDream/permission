@@ -29,7 +29,6 @@ public class SysRoleAclService {
     @Resource
     private SysRoleAclMapper sysRoleAclMapper;
     @Resource
-//    private SysLogMapper sysLogMapper;
     private SysLogService sysLogService;
 
     /**
@@ -42,7 +41,6 @@ public class SysRoleAclService {
 
         // 目前这段代码看起来没啥作用，它也没有启动删除权限的作用
         if (Objects.equals(aclIdList.size(), originAclIdList.size())) {
-//        if (originAclIdList.size() == aclIdList.size()) {
             Set<Integer> originAclIdSet = Sets.newHashSet(originAclIdList);
             Set<Integer> aclIdSet = Sets.newHashSet(aclIdList);
             log.info("originAclIdSet: [{}]", originAclIdSet);

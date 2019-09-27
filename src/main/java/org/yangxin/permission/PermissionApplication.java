@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.yangxin.permission.common.HttpInterceptor;
+import org.yangxin.permission.filter.AclControlFilter;
 import org.yangxin.permission.filter.LoginFilter;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedisPool;
@@ -42,6 +43,19 @@ public class PermissionApplication implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new HttpInterceptor()).addPathPatterns("/**");
+    }
+
+    /**
+     * 请求过滤器
+     */
+    @Bean
+    public FilterRegistrationBean httpFilter() {
+        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new AclControlFilter());
+        registration.addUrlPatterns("/sys/*", "/admin/*");
+        registration.setOrder(2);
+
+        return registration;
     }
 
     /**
