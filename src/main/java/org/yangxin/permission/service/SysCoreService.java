@@ -52,10 +52,12 @@ public class SysCoreService {
      * 获得该Url的权限
      */
     public boolean hasUrlAcl(String url) {
+        // 如果是超级管理员，则拥有对全部url的访问权限
         if (isSuperAdmin()) {
             return true;
         }
 
+        // 获取对此url有访问权限的全部权限记录
         List<SysAcl> aclList = sysAclMapper.getByUrl(url);
         if (CollectionUtils.isEmpty(aclList)) {
             return true;

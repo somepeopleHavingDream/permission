@@ -29,6 +29,8 @@ public class UserController {
 
     @RequestMapping("/logout.page")
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("logout");
+
         request.getSession().invalidate();
         String path = "signin.jsp";
         response.sendRedirect(path);

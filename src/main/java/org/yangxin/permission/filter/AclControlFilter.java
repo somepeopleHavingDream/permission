@@ -68,6 +68,7 @@ public class AclControlFilter implements Filter {
         SysCoreService sysCoreService = ApplicationContextHelper.popBean(SysCoreService.class);
         Preconditions.checkNotNull(sysCoreService, "SysCoreService为null");
 
+        // 无权限，做无权限操作
         if (!sysCoreService.hasUrlAcl(servletPath)) {
             log.info("[{}] visit [{}], but no login, parameter: [{}]",
                     GsonUtil.obj2String(sysUser),
@@ -77,6 +78,7 @@ public class AclControlFilter implements Filter {
             return;
         }
 
+        // 有权限，则放行
         chain.doFilter(httpServletRequest, httpServletResponse);
     }
 
