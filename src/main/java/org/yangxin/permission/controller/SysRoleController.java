@@ -129,20 +129,28 @@ public class SysRoleController {
 
 
         List<Integer> userIdList = StringUtil.splitToIntList(userIds);
-//        List<Integer> userIdList = StringUtil.splitToListInt(userIds);
         sysRoleUserService.changeRoleUsers(roleId, userIdList);
         return JsonData.success();
     }
 
+    /**
+     * 返回用户信息
+     *
+     * @param roleId 角色Id
+     */
     @RequestMapping("/users.json")
     @ResponseBody
     public JsonData users(@RequestParam("roleId") int roleId) {
         log.info("roleId: [{}]", roleId);
 
+        // 已选中的用户集合
         List<SysUser> selectedUserList = sysRoleUserService.getListByRoleId(roleId);
+        // 全部用户集合
         List<SysUser> allUserList = sysUserService.getAll();
+        // 未选中的用户集合
         List<SysUser> unselectedUserList = Lists.newArrayList();
 
+        // 构建未选中的用户集合
         Set<Integer> selectedUserIdSet = selectedUserList.stream()
                 .map(SysUser::getId)
                 .collect(Collectors.toSet());
@@ -152,6 +160,7 @@ public class SysRoleController {
             }
         }
 
+        // 返回
         Map<String, List<SysUser>> map = Maps.newHashMap();
         map.put("selected", selectedUserList);
         map.put("unselected", unselectedUserList);

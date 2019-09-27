@@ -53,11 +53,11 @@
   </delete>
 
     <insert id="batchInsert" parameterType="map">
-        insert into sys_role_user(role_id, user_id, operator, operate_time, operate_ip)
+        insert into sys_role_user(role_id, user_id, operator, operator_time, operator_ip)
         values
         <foreach collection="roleUserList" item="roleUser" separator=",">
-            (#{roleUser.roleId}, #{roleUser.userId}, #{roleUser.operator}, #{roleUser.operateTime},
-            #{roleUser.operateIp})
+            (#{roleUser.roleId}, #{roleUser.userId}, #{roleUser.operator}, #{roleUser.operatorTime},
+            #{roleUser.operatorIp})
         </foreach>
     </insert>
 
