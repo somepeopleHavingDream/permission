@@ -13,9 +13,49 @@
     <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
     <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, name, parent_id, level, seq, status, remark, operator, operator_time, operator_ip
   </sql>
+
+  <select id="countByParentId" parameterType="int" resultType="int">
+    select count(*)
+    from sys_acl_module
+    where parent_id = #{aclModuleId}
+  </select>
+
+  <update id="batchUpdateLevel" parameterType="map">
+    <foreach collection="sysAclModuleList" item="sysAclModule" separator=";">
+      update sys_acl_module
+      set level = #{sysAclModule.level}
+      where id = #{sysAclModule.id}
+    </foreach>
+  </update>
+
+  <select id="getChildAclModuleListByLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_acl_module
+    where level like #{level}
+  </select>
+
+  <select id="countByNameAndParentId" parameterType="map" resultType="int">
+    select count(*)
+    from sys_acl_module
+    where name = #{name}
+    <if test="parentId != null">
+      and parent_id = #{parentId}
+    </if>
+    <if test="id != null">
+      and id != #{id}
+    </if>
+  </select>
+
+  <select id="getAllAclModule" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from sys_acl_module
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

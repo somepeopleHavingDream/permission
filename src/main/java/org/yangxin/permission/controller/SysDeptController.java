@@ -42,7 +42,7 @@ public class SysDeptController {
     @RequestMapping("/save.json")
     @ResponseBody
     public JsonData saveDept(DeptParam param) {
-        log.info("param: [{}}", param);
+        log.info("param: [{}]", param);
 
         sysDeptService.save(param);
         return JsonData.success();
@@ -64,14 +64,21 @@ public class SysDeptController {
     @RequestMapping("/update.json")
     @ResponseBody
     public JsonData updateDept(DeptParam param) {
+        log.info("param: [{}]", param);
+
         sysDeptService.update(param);
         return JsonData.success();
     }
 
+    /**
+     * 删除部门
+     */
     @RequestMapping("/delete.json")
     @ResponseBody
-    public JsonData delete(@RequestParam("id") int id) {
-        sysDeptService.delete(id);
+    public JsonData delete(@RequestParam("id") int deptId) {
+        log.info("deptId: [{}]", deptId);
+
+        sysDeptService.delete(deptId);
         return JsonData.success();
     }
 }

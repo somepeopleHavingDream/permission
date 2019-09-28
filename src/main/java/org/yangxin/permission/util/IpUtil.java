@@ -49,7 +49,7 @@ public class IpUtil {
     /**
      * 获取用户的真实IP
      */
-    public static String getUserIP(HttpServletRequest request) {
+    private static String getUserIP(HttpServletRequest request) {
         // 优先取X-Real-IP
         String ip = request.getHeader("X-Real-IP");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {

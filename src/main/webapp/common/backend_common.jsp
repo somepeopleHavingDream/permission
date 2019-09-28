@@ -45,6 +45,10 @@
 <script type="text/javascript">
     // 展示提示信息
     function showMessage(title, msg, isSuccess) {
+        // console.log("showMessage");
+        // console.log("title: ", title);
+        // console.log("msg: ", msg);
+        // console.log("isSuccess: ", isSuccess);
         if (!isSuccess) {
             msg = msg || '';
         } else {

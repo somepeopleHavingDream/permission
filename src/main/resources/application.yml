@@ -8,12 +8,15 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   mvc:
     view:
-      prefix: /WEB-INF/views/
+      prefix: /pages/
+#      prefix: /WEB-INF/views/
       suffix: .jsp
 
 ## mybatis
 mybatis:
   mapper-locations: mappers/*.xml
-#  mapper-locations: mappers/*.xml
   type-aliases-package: org.yangxin.permission.model
-#  org.yangxin.permission.model
+
+## 端口
+server:
+  port: 18080

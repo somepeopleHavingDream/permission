@@ -2,6 +2,7 @@ package org.yangxin.permission.param;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
+@ToString
 public class UserParam {
     private Integer id;
 

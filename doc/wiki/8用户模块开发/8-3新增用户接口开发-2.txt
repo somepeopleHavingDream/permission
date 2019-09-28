@@ -1,0 +1,7 @@
+- SysUserService @
+- SysUserController @
+- MD5Util @
+
+http://localhost:18080/sys/user/save.json?username=admin&telephone=18774525398&mail=admin@qq.com&deptId=1&status=1
+localhost:18080/sys/dept/save.json?name=技术部&seq=1&remark=技术部
+http://localhost:18080/sys/user/update.json?username=Admin&telephone=18774525398&mail=admin@qq.com&deptId=1&status=1&remark=admin&id=5

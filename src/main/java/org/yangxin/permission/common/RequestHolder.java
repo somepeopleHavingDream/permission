@@ -5,6 +5,8 @@ import org.yangxin.permission.model.SysUser;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * request封装类
+ *
  * @author yangxin
  * 2019/09/05 17:36
  */
@@ -13,10 +15,16 @@ public class RequestHolder {
 
     private static final ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<>();
 
+    /**
+     * 设置登录用户
+     */
     public static void add(SysUser sysUser) {
         userHolder.set(sysUser);
     }
 
+    /**
+     * 设置请求
+     */
     public static void add(HttpServletRequest request) {
         requestHolder.set(request);
     }

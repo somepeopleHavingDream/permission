@@ -20,7 +20,7 @@ import java.util.List;
 @ToString
 public class DeptLevelDto extends SysDept {
     /**
-     * 子部门集合
+     * 子部门集合；相比SysDept类，多了这个属性
      */
     private List<DeptLevelDto> deptList = Lists.newArrayList();
 

@@ -26,17 +26,17 @@ public class JsonMapper {
 //        objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
     }
 
-    public static <T> String obj2String(T src) {
-        if (src == null) {
-            return null;
-        }
-        try {
-            return src instanceof String ? (String) src : objectMapper.writeValueAsString(src);
-        } catch (Exception e) {
-            log.warn("parse object to String exception, error: [{}]", e);
-            return null;
-        }
-    }
+//    public static <T> String obj2String(T src) {
+//        if (src == null) {
+//            return null;
+//        }
+//        try {
+//            return src instanceof String ? (String) src : objectMapper.writeValueAsString(src);
+//        } catch (Exception e) {
+//            log.warn("parse object to String exception, error: [{}]", e);
+//            return null;
+//        }
+//    }
 
     public static <T> T string2Obj(String src, TypeReference<T> typeReference) {
         if (src == null || typeReference == null) {
