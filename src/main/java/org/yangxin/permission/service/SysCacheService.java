@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @Slf4j
 public class SysCacheService {
     @Resource(name = "redisPool")
-    private RedisPool redisPool;
+    private RedisPoolService redisPoolService;
 
     public void saveCache(String toSavedValue, int timeoutSeconds, CacheKeyConstants prefix) {
         saveCache(toSavedValue, timeoutSeconds, prefix, (String[]) null);
@@ -32,13 +32,13 @@ public class SysCacheService {
         ShardedJedis shardedJedis = null;
         try {
             String cacheKey = generateCacheKey(prefix, keys);
-            shardedJedis = redisPool.instance();
+            shardedJedis = redisPoolService.instance();
             shardedJedis.setex(cacheKey, timeoutSeconds, toSavedValue);
         } catch (Exception e) {
             log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
 //            log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
         } finally {
-            redisPool.safeClose(shardedJedis);
+            redisPoolService.safeClose(shardedJedis);
         }
     }
 
@@ -49,14 +49,14 @@ public class SysCacheService {
         ShardedJedis shardedJedis = null;
         String cacheKey = generateCacheKey(prefix, keys);
         try {
-            shardedJedis = redisPool.instance();
+            shardedJedis = redisPoolService.instance();
             return shardedJedis.get(cacheKey);
         } catch (Exception e) {
             log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
 //            log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
             return null;
         } finally {
-            redisPool.safeClose(shardedJedis);
+            redisPoolService.safeClose(shardedJedis);
         }
     }
 

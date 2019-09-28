@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @Service("redisPool")
 @Slf4j
-public class RedisPool {
+public class RedisPoolService {
     @Resource(name = "shardedJedisPool")
     private ShardedJedisPool shardedJedisPool;
 
@@ -29,7 +29,7 @@ public class RedisPool {
     /**
      * 安全关闭一个redis连接
      */
-    public void safeClose(ShardedJedis shardedJedis) {
+    void safeClose(ShardedJedis shardedJedis) {
         try {
             if (shardedJedis != null) {
                 shardedJedis.close();
