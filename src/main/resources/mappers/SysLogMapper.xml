@@ -1,38 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.yangxin.permission.dao.SysLogMapper">
-  <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysLog">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="target_id" jdbcType="INTEGER" property="targetId" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="operator" jdbcType="VARCHAR" property="operator" />
-    <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime" />
-    <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yangxin.permission.model.SysLogWithBLOBs">
-    <result column="old_value" jdbcType="LONGVARCHAR" property="oldValue" />
-    <result column="new_value" jdbcType="LONGVARCHAR" property="newValue" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysLog">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="target_id" jdbcType="INTEGER" property="targetId"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="operator_time" jdbcType="TIMESTAMP" property="operatorTime"/>
+        <result column="operator_ip" jdbcType="VARCHAR" property="operatorIp"/>
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.yangxin.permission.model.SysLogWithBLOBs">
+        <result column="old_value" jdbcType="LONGVARCHAR" property="oldValue"/>
+        <result column="new_value" jdbcType="LONGVARCHAR" property="newValue"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, type, target_id, status, operator, operator_time, operator_ip
   </sql>
-  <sql id="Blob_Column_List">
+    <sql id="Blob_Column_List">
     old_value, new_value
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from sys_log
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <sql id="queryConditions">
+        <where>
+            <if test="dto.type != null">
+                AND type = #{dto.type}
+            </if>
+            <if test="dto.beforeSeg != null and dto.beforeSeg != ''">
+                AND old_value like #{dto.beforeSeg}
+            </if>
+            <if test="dto.afterSeg != null and dto.afterSeg != ''">
+                AND new_value like #{dto.afterSeg}
+            </if>
+            <if test="dto.operator != null and dto.operator != ''">
+                AND operator like #{dto.operator}
+            </if>
+            <if test="dto.fromTime != null">
+                AND operate_time &gt;= #{dto.fromTime}
+            </if>
+            <if test="dto.toTime != null">
+                AND operate_time &lt;= #{dto.toTime}
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPageListBySearchDto" parameterType="map" resultMap="ResultMapWithBLOBs">
+        select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/>
+        from sys_log
+        <include refid="queryConditions"/>
+        order by operator_time desc
+        limit #{page.offset}, #{page.pageSize}
+    </select>
+
+    <select id="countBySearchDto" parameterType="map" resultType="int">
+        select count(*)
+        from sys_log
+        <include refid="queryConditions"/>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from sys_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
+    <insert id="insert" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     insert into sys_log (id, type, target_id, 
       status, operator, operator_time, 
       operator_ip, old_value, new_value
@@ -42,98 +80,98 @@
       #{operatorIp,jdbcType=VARCHAR}, #{oldValue,jdbcType=LONGVARCHAR}, #{newValue,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
-    insert into sys_log
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="targetId != null">
-        target_id,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="operator != null">
-        operator,
-      </if>
-      <if test="operatorTime != null">
-        operator_time,
-      </if>
-      <if test="operatorIp != null">
-        operator_ip,
-      </if>
-      <if test="oldValue != null">
-        old_value,
-      </if>
-      <if test="newValue != null">
-        new_value,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
-      </if>
-      <if test="targetId != null">
-        #{targetId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-      <if test="operator != null">
-        #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operatorTime != null">
-        #{operatorTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="operatorIp != null">
-        #{operatorIp,jdbcType=VARCHAR},
-      </if>
-      <if test="oldValue != null">
-        #{oldValue,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="newValue != null">
-        #{newValue,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
-    update sys_log
-    <set>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
-      </if>
-      <if test="targetId != null">
-        target_id = #{targetId,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-      <if test="operator != null">
-        operator = #{operator,jdbcType=VARCHAR},
-      </if>
-      <if test="operatorTime != null">
-        operator_time = #{operatorTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="operatorIp != null">
-        operator_ip = #{operatorIp,jdbcType=VARCHAR},
-      </if>
-      <if test="oldValue != null">
-        old_value = #{oldValue,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="newValue != null">
-        new_value = #{newValue,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
+    <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="targetId != null">
+                target_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="operatorTime != null">
+                operator_time,
+            </if>
+            <if test="operatorIp != null">
+                operator_ip,
+            </if>
+            <if test="oldValue != null">
+                old_value,
+            </if>
+            <if test="newValue != null">
+                new_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="targetId != null">
+                #{targetId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorTime != null">
+                #{operatorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operatorIp != null">
+                #{operatorIp,jdbcType=VARCHAR},
+            </if>
+            <if test="oldValue != null">
+                #{oldValue,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="newValue != null">
+                #{newValue,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
+        update sys_log
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="targetId != null">
+                target_id = #{targetId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="operatorTime != null">
+                operator_time = #{operatorTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operatorIp != null">
+                operator_ip = #{operatorIp,jdbcType=VARCHAR},
+            </if>
+            <if test="oldValue != null">
+                old_value = #{oldValue,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="newValue != null">
+                new_value = #{newValue,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="org.yangxin.permission.model.SysLogWithBLOBs">
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},
@@ -145,7 +183,7 @@
       new_value = #{newValue,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysLog">
+    <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysLog">
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},

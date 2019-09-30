@@ -60,7 +60,7 @@ public class SysRoleService {
 
         // 数据库操作
         sysRoleMapper.insertSelective(role);
-//        sysLogService.saveRoleLog(null, role);
+        sysLogService.saveRoleLog(null, role);
     }
 
     /**

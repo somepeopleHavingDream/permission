@@ -60,7 +60,7 @@ public class SysDeptService {
 
         // 往数据库插入相关记录
         sysDeptMapper.insertSelective(dept);
-//        sysLogService.saveDeptLog(null, dept);
+        sysLogService.saveDeptLog(null, dept);
     }
 
     /**
@@ -91,7 +91,7 @@ public class SysDeptService {
         // 递归更新
         log.info("before: [{}], after: [{}]", before, after);
         updateWithChild(before, after);
-//        sysLogService.saveDeptLog(before, after);
+        sysLogService.saveDeptLog(before, after);
     }
 
     /**

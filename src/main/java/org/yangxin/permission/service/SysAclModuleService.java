@@ -56,7 +56,7 @@ public class SysAclModuleService {
 
         // 插入数据库
         sysAclModuleMapper.insertSelective(aclModule);
-//        sysLogService.saveAclModuleLog(null, aclModule);
+        sysLogService.saveAclModuleLog(null, aclModule);
     }
 
     /**
@@ -87,7 +87,7 @@ public class SysAclModuleService {
 
         // 更新，记录
         updateWithChild(before, after);
-//        sysLogService.saveAclModuleLog(before, after);
+        sysLogService.saveAclModuleLog(before, after);
     }
 
     /**
