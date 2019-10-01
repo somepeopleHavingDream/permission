@@ -1,7 +1,10 @@
 package org.yangxin.permission.model;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class SysLog {
     private Integer id;
 

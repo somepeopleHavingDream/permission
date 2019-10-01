@@ -28,14 +28,16 @@
                         <div class="col-xs-12">
                             <div class="dataTables_length" id="dynamic-table_length"><label>
                                 展示
-                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table" class="form-control input-sm">
+                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table"
+                                        class="form-control input-sm">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
                                 </select> 条记录 </label>
                                 <label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型
-                                    <select id="search-type" name="dynamic-table_length" aria-controls="dynamic-table" class="form-control input-sm">
+                                    <select id="search-type" name="dynamic-table_length" aria-controls="dynamic-table"
+                                            class="form-control input-sm">
                                         <option value="">全部</option>
                                         <option value="1">部门</option>
                                         <option value="2">用户</option>
@@ -46,18 +48,25 @@
                                         <option value="7">角色用户关系</option>
                                     </select></label>
 
-                                <input id="search-operator" type="search" name="operator" class="form-control input-sm" placeholder="操作者" aria-controls="dynamic-table">
-                                <input id="search-before" type="search" name="beforeSeg" class="form-control input-sm" placeholder="操作前的值" aria-controls="dynamic-table">
-                                <input id="search-after" type="search" name="afterSeg" class="form-control input-sm" placeholder="操作后的值" aria-controls="dynamic-table">
-                                <input id="search-from"type="search" name="fromTime" class="form-control input-sm" placeholder="开始时间" aria-controls="dynamic-table"> ~
-                                <input id="search-to" type="search" name="toTime" class="form-control input-sm" placeholder="结束时间" aria-controls="dynamic-table">
+                                <input id="search-operator" type="search" name="operator" class="form-control input-sm"
+                                       placeholder="操作者" aria-controls="dynamic-table">
+                                <input id="search-before" type="search" name="beforeSeg" class="form-control input-sm"
+                                       placeholder="操作前的值" aria-controls="dynamic-table">
+                                <input id="search-after" type="search" name="afterSeg" class="form-control input-sm"
+                                       placeholder="操作后的值" aria-controls="dynamic-table">
+                                <input id="search-from" type="search" name="fromTime" class="form-control input-sm"
+                                       placeholder="开始时间" aria-controls="dynamic-table"> ~
+                                <input id="search-to" type="search" name="toTime" class="form-control input-sm"
+                                       placeholder="结束时间" aria-controls="dynamic-table">
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-info fa fa-check research" style="margin-bottom: 6px;" type="button">
+                                <button class="btn btn-info fa fa-check research" style="margin-bottom: 6px;"
+                                        type="button">
                                     刷新
                                 </button>
                             </div>
                         </div>
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
+                        <table id="dynamic-table"
+                               class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
                                aria-describedby="dynamic-table_info" style="font-size:14px">
                             <thead>
                             <tr role="row">
@@ -106,7 +115,8 @@
     </td>
 </tr>
 {{/logList}}
-</script>
+
+    </script>
 
     <script type="text/javascript">
         $(function () {
@@ -137,8 +147,8 @@
                         pageNo: pageNo,
                         pageSize: pageSize,
                         beforeSeg: beforeSeg,
-                        afterSeg : afterSeg,
-                        operator : operator,
+                        afterSeg: afterSeg,
+                        operator: operator,
                         fromTime: fromTime,
                         toTime: toTime,
                         type: type
@@ -159,19 +169,34 @@
                                 return function (text, render) {
                                     var typeStr = "";
                                     switch (this.type) {
-                                        case 1: typeStr = "部门";break;
-                                        case 2: typeStr = "用户";break;
-                                        case 3: typeStr = "权限模块";break;
-                                        case 4: typeStr = "权限点";break;
-                                        case 5: typeStr = "角色";break;
-                                        case 6: typeStr = "角色权限关系";break;
-                                        case 7: typeStr = "角色用户关系";break;
-                                        default: typeStr = "未知";
+                                        case 1:
+                                            typeStr = "部门";
+                                            break;
+                                        case 2:
+                                            typeStr = "用户";
+                                            break;
+                                        case 3:
+                                            typeStr = "权限模块";
+                                            break;
+                                        case 4:
+                                            typeStr = "权限点";
+                                            break;
+                                        case 5:
+                                            typeStr = "角色";
+                                            break;
+                                        case 6:
+                                            typeStr = "角色权限关系";
+                                            break;
+                                        case 7:
+                                            typeStr = "角色用户关系";
+                                            break;
+                                        default:
+                                            typeStr = "未知";
                                     }
                                     return typeStr;
                                 }
                             },
-                            "showDate" :function () {
+                            "showDate": function () {
                                 return function (text, render) {
                                     return new Date(this.operateTime).Format("yyyy-MM-dd hh:mm:ss");
                                 }
@@ -207,7 +232,7 @@
                 $(".log-edit").click(function (e) {
                     e.preventDefault();
                     var logId = $(this).attr("data-id"); // 选中的log id
-                    console.log(logId);
+                    // console.log(logId);
                     if (confirm("确定要还原这个操作吗?")) {
                         $.ajax({
                             url: "/sys/log/recover.json",
@@ -226,6 +251,7 @@
                     }
                 });
             }
+
             Date.prototype.Format = function (fmt) { //author: meizz
                 var o = {
                     "M+": this.getMonth() + 1, //月份
@@ -241,8 +267,8 @@
                     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
                 return fmt;
             };
-            var formatJson = function(json, options) {
-                if(json == '') return '';
+            var formatJson = function (json, options) {
+                if (json == '') return '';
                 var reg = null,
                     formatted = '',
                     pad = 0,
@@ -297,7 +323,7 @@
                     json = json.replace(reg, ': ');
                 }
 
-                $.each(json.split('\r\n'), function(index, node) {
+                $.each(json.split('\r\n'), function (index, node) {
                     var i = 0,
                         indent = 0,
                         padding = '';
@@ -324,5 +350,6 @@
 
         });
     </script>
+</div>
 </body>
 </html>

@@ -1,5 +1,8 @@
 package org.yangxin.permission.model;
 
+import lombok.ToString;
+
+@ToString
 public class SysLogWithBLOBs extends SysLog {
     private String oldValue;
 

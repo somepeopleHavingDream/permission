@@ -37,7 +37,7 @@ public class SysLogController {
     /**
      * 恢复
      */
-    @RequestMapping
+    @RequestMapping("/recover.json")
     @ResponseBody
     public JsonData recover(@RequestParam("id") int id) {
         log.info("id: [{}]", id);

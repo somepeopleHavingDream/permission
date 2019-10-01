@@ -52,8 +52,13 @@ public class SysLogService {
     private SysRoleUserService sysRoleUserService;
 
     public void recover(int id) {
+        // 查找对应的日志记录
         SysLogWithBLOBs sysLog = sysLogMapper.selectByPrimaryKey(id);
         Preconditions.checkNotNull(sysLog, "待还原的记录不存在");
+        log.info("sysLog: [{}]", sysLog);
+        log.info("type: [{}]", sysLog.getType());
+
+        // 还原操作
         switch (sysLog.getType()) {
             case LogType.TYPE_DEPT:
                 SysDept beforeDept = sysDeptMapper.selectByPrimaryKey(sysLog.getTargetId());
@@ -69,11 +74,16 @@ public class SysLogService {
                 saveDeptLog(beforeDept, afterDept);
                 break;
             case LogType.TYPE_USER:
+                // 获得目标记录，判空
                 SysUser beforeUser = sysUserMapper.selectByPrimaryKey(sysLog.getTargetId());
                 Preconditions.checkNotNull(beforeUser, "待还原的用户已经不存在了");
+
+                // 判断是否能够进行还原
                 if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
+
+                // 还原，数据库操作，保存日志
                 SysUser afterUser = GsonUtil.string2Obj(sysLog.getOldValue(), SysUser.class);
                 afterUser.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterUser.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
