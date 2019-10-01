@@ -136,8 +136,8 @@ public class SysAclModuleService {
      */
     private void setOperation(SysAclModule aclModule) {
         aclModule.setOperator(RequestHolder.getCurrentUser().getUsername());
-        aclModule.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        aclModule.setOperatorTime(new Date());
+        aclModule.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        aclModule.setOperateTime(new Date());
     }
 
     /**

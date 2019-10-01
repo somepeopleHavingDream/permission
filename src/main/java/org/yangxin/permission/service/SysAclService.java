@@ -108,8 +108,8 @@ public class SysAclService {
      */
     private void setOperation(SysAcl acl) {
         acl.setOperator(RequestHolder.getCurrentUser().getUsername());
-        acl.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        acl.setOperatorTime(new Date());
+        acl.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        acl.setOperateTime(new Date());
     }
 
     /**

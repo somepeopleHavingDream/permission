@@ -101,8 +101,8 @@ public class SysRoleUserService {
                     .roleId(roleId)
                     .userId(userId)
                     .operator(RequestHolder.getCurrentUser().getUsername())
-                    .operatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()))
-                    .operatorTime(new Date())
+                    .operateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()))
+                    .operateTime(new Date())
                     .build();
             roleUserList.add(roleUser);
         }

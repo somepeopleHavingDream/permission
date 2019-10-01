@@ -32,13 +32,11 @@ public class AclControlFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-//        String exclusionUrls = filterConfig.getInitParameter("exclusionUrls");
-//        List<String> exclusionUrlList = Splitter.on(",").trimResults().omitEmptyStrings().splitToList(exclusionUrls);
-//        exclusionUrlSet = Sets.newConcurrentHashSet();
-
         exclusionUrlSet.add(noAuthUrl);
         exclusionUrlSet.add("/signin.jsp");
         exclusionUrlSet.add("/admin/index.page");
+
+//        exclusionUrlSet.add("/sys/user/save.json");
     }
 
     @Override
@@ -83,9 +81,7 @@ public class AclControlFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() {}
 
     /**
      * 未授权处理逻辑

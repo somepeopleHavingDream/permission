@@ -134,9 +134,8 @@ public class SysUserService {
      */
     private void setOperation(SysUser after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-//        after.setOperatorIp("127.0.0.1");
-        after.setOperatorTime(new Date());
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        after.setOperateTime(new Date());
     }
 
     /**

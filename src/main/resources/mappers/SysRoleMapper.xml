@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.yangxin.permission.dao.SysAclModuleMapper" >
-  <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysAclModule" >
+<mapper namespace="org.yangxin.permission.dao.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="org.yangxin.permission.model.SysRole" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-    <result column="level" property="level" jdbcType="VARCHAR" />
-    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="operator" property="operator" jdbcType="VARCHAR" />
@@ -14,30 +12,28 @@
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, parent_id, level, seq, status, remark, operator, operate_time, operate_ip
+    id, name, type, status, remark, operator, operate_time, operate_ip
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from sys_acl_module
+    from sys_role
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_acl_module
+    delete from sys_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.yangxin.permission.model.SysAclModule" >
-    insert into sys_acl_module (id, name, parent_id, 
-      level, seq, status, 
-      remark, operator, operate_time, 
-      operate_ip)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{level,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
-      #{operateIp,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="org.yangxin.permission.model.SysRole" >
+    insert into sys_role (id, name, type, 
+      status, remark, operator, 
+      operate_time, operate_ip)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysAclModule" keyProperty="id" useGeneratedKeys="true">
-    insert into sys_acl_module
+  <insert id="insertSelective" parameterType="org.yangxin.permission.model.SysRole" keyProperty="id" useGeneratedKeys="true">
+    insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -45,14 +41,8 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="parentId != null" >
-        parent_id,
-      </if>
-      <if test="level != null" >
-        level,
-      </if>
-      <if test="seq != null" >
-        seq,
+      <if test="type != null" >
+        type,
       </if>
       <if test="status != null" >
         status,
@@ -77,14 +67,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null" >
-        #{seq,jdbcType=INTEGER},
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -103,20 +87,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysAclModule" >
-    update sys_acl_module
+  <update id="updateByPrimaryKeySelective" parameterType="org.yangxin.permission.model.SysRole" >
+    update sys_role
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="parentId != null" >
-        parent_id = #{parentId,jdbcType=INTEGER},
-      </if>
-      <if test="level != null" >
-        level = #{level,jdbcType=VARCHAR},
-      </if>
-      <if test="seq != null" >
-        seq = #{seq,jdbcType=INTEGER},
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -136,12 +114,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysAclModule" >
-    update sys_acl_module
+  <update id="updateByPrimaryKey" parameterType="org.yangxin.permission.model.SysRole" >
+    update sys_role
     set name = #{name,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER},
-      level = #{level,jdbcType=VARCHAR},
-      seq = #{seq,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       operator = #{operator,jdbcType=VARCHAR},
@@ -150,41 +126,26 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="getChildAclModuleListByLevel" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sys_acl_module
-    WHERE level like #{level}
+  <select id="getAll" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_role
   </select>
 
-  <update id="batchUpdateLevel" parameterType="map">
-    <foreach collection="sysAclModuleList" item="sysAclModule" separator=";">
-      UPDATE sys_acl_module
-      SET level = #{sysAclModule.level}
-      WHERE id = #{sysAclModule.id}
-    </foreach>
-  </update>
-
-  <select id="countByNameAndParentId" parameterType="map" resultType="int">
+  <select id="countByName" parameterType="map" resultType="int">
     SELECT count(1)
-    FROM sys_acl_module
+    FROM sys_role
     WHERE name = #{name}
-    <if test="parentId != null">
-      AND parent_id = #{parentId}
-    </if>
     <if test="id != null">
       AND id != #{id}
     </if>
   </select>
 
-  <select id="getAllAclModule" resultMap="BaseResultMap">
+  <select id="getByIdList" parameterType="map" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
-    FROM sys_acl_module
-  </select>
-
-  <select id="countByParentId" parameterType="int" resultType="int">
-    SELECT count(1)
-    FROM sys_acl_module
-    WHERE parent_id = #{aclModuleId}
+    FROM sys_role
+    WHERE id IN
+    <foreach collection="idList" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
   </select>
 </mapper>

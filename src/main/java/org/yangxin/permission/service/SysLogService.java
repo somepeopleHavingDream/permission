@@ -62,8 +62,8 @@ public class SysLogService {
                 SysDept afterDept = GsonUtil.string2Obj(sysLog.getOldValue(), SysDept.class);
 //                SysDept afterDept = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysDept>()
                 afterDept.setOperator(RequestHolder.getCurrentUser().getUsername());
-                afterDept.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-                afterDept.setOperatorTime(new Date());
+                afterDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+                afterDept.setOperateTime(new Date());
                 sysDeptMapper.updateByPrimaryKeySelective(afterDept);
                 saveDeptLog(beforeDept, afterDept);
                 break;
@@ -77,8 +77,8 @@ public class SysLogService {
 //                });
                 SysUser afterUser = GsonUtil.string2Obj(sysLog.getOldValue(), SysUser.class);
                 afterUser.setOperator(RequestHolder.getCurrentUser().getUsername());
-                afterUser.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-                afterUser.setOperatorTime(new Date());
+                afterUser.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+                afterUser.setOperateTime(new Date());
                 sysUserMapper.updateByPrimaryKeySelective(afterUser);
                 saveUserLog(beforeUser, afterUser);
                 break;
@@ -92,8 +92,8 @@ public class SysLogService {
 //                });
                 SysAclModule afterAclModule = GsonUtil.string2Obj(sysLog.getOldValue(), SysAclModule.class);
                 afterAclModule.setOperator(RequestHolder.getCurrentUser().getUsername());
-                afterAclModule.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-                afterAclModule.setOperatorTime(new Date());
+                afterAclModule.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+                afterAclModule.setOperateTime(new Date());
                 sysAclModuleMapper.updateByPrimaryKeySelective(afterAclModule);
                 saveAclModuleLog(beforeAclModule, afterAclModule);
                 break;
@@ -107,8 +107,8 @@ public class SysLogService {
 //                });
                 SysAcl afterAcl = GsonUtil.string2Obj(sysLog.getOldValue(), SysAcl.class);
                 afterAcl.setOperator(RequestHolder.getCurrentUser().getUsername());
-                afterAcl.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-                afterAcl.setOperatorTime(new Date());
+                afterAcl.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+                afterAcl.setOperateTime(new Date());
                 sysAclMapper.updateByPrimaryKeySelective(afterAcl);
                 saveAclLog(beforeAcl, afterAcl);
                 break;
@@ -122,8 +122,8 @@ public class SysLogService {
 //                });
                 SysRole afterRole = GsonUtil.string2Obj(sysLog.getOldValue(), SysRole.class);
                 afterRole.setOperator(RequestHolder.getCurrentUser().getUsername());
-                afterRole.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-                afterRole.setOperatorTime(new Date());
+                afterRole.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+                afterRole.setOperateTime(new Date());
                 sysRoleMapper.updateByPrimaryKeySelective(afterRole);
                 saveRoleLog(beforeRole, afterRole);
                 break;
@@ -185,8 +185,8 @@ public class SysLogService {
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
 //        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        sysLog.setOperatorTime(new Date());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }
@@ -200,8 +200,8 @@ public class SysLogService {
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
 //        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        sysLog.setOperatorTime(new Date());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }
@@ -215,8 +215,8 @@ public class SysLogService {
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
 //        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        sysLog.setOperatorTime(new Date());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }
@@ -230,8 +230,8 @@ public class SysLogService {
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
 //        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        sysLog.setOperatorTime(new Date());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }
@@ -245,8 +245,8 @@ public class SysLogService {
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
 //        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysLog.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        sysLog.setOperatorTime(new Date());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }

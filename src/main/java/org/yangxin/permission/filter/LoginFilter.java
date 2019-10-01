@@ -30,6 +30,8 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
+//        filterChain.doFilter(servletRequest, servletResponse);
+
         SysUser sysUser = (SysUser) req.getSession().getAttribute("user");
         if (sysUser == null) {
             String path = "/signin.jsp";

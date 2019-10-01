@@ -145,8 +145,8 @@ public class SysRoleService {
      */
     private void setOperation(SysRole role) {
         role.setOperator(RequestHolder.getCurrentUser().getUsername());
-        role.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        role.setOperatorTime(new Date());
+        role.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        role.setOperateTime(new Date());
     }
 
     /**

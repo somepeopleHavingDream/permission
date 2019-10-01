@@ -18,7 +18,7 @@ public interface SysDeptMapper {
 
     int updateByPrimaryKey(SysDept record);
 
-    int countByNameParentId(@Param("parentId") Integer parentId, @Param("name") String name, @Param("id") Integer id);
+    int countByNameAndParentId(@Param("parentId") Integer parentId, @Param("name") String name, @Param("id") Integer id);
 
     List<SysDept> getChildDeptListByLevel(@Param("level") String level);
 

@@ -99,8 +99,8 @@ public class SysDeptService {
      */
     private void setOperation(SysDept after) {
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperatorIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
-        after.setOperatorTime(new Date());
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        after.setOperateTime(new Date());
     }
 
     /**
@@ -151,7 +151,7 @@ public class SysDeptService {
      * @param deptId 部门Id
      */
     private boolean checkExist(Integer parentId, String deptName, Integer deptId) {
-        return sysDeptMapper.countByNameParentId(parentId, deptName, deptId) > 0;
+        return sysDeptMapper.countByNameAndParentId(parentId, deptName, deptId) > 0;
     }
 
     /**
