@@ -2,6 +2,7 @@ package org.yangxin.permission.beans;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Min;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Min;
  * @author yangxin
  * 2019/09/16 10:27
  */
+@ToString
 public class PageQuery {
     @Getter
     @Setter

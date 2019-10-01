@@ -2,6 +2,7 @@ package org.yangxin.permission.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.yangxin.permission.beans.LogType;
@@ -30,6 +31,7 @@ import java.util.List;
  * 2019/09/06 11:57
  */
 @Service
+@Slf4j
 public class SysLogService {
 
     @Resource
@@ -60,7 +62,6 @@ public class SysLogService {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysDept afterDept = GsonUtil.string2Obj(sysLog.getOldValue(), SysDept.class);
-//                SysDept afterDept = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysDept>()
                 afterDept.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
                 afterDept.setOperateTime(new Date());
@@ -73,8 +74,6 @@ public class SysLogService {
                 if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
-//                SysUser afterUser = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysUser>() {
-//                });
                 SysUser afterUser = GsonUtil.string2Obj(sysLog.getOldValue(), SysUser.class);
                 afterUser.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterUser.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
@@ -88,8 +87,6 @@ public class SysLogService {
                 if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
-//                SysAclModule afterAclModule = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysAclModule>() {
-//                });
                 SysAclModule afterAclModule = GsonUtil.string2Obj(sysLog.getOldValue(), SysAclModule.class);
                 afterAclModule.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterAclModule.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
@@ -103,8 +100,6 @@ public class SysLogService {
                 if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
-//                SysAcl afterAcl = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysAcl>() {
-//                });
                 SysAcl afterAcl = GsonUtil.string2Obj(sysLog.getOldValue(), SysAcl.class);
                 afterAcl.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterAcl.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
@@ -118,8 +113,6 @@ public class SysLogService {
                 if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
-//                SysRole afterRole = JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<SysRole>() {
-//                });
                 SysRole afterRole = GsonUtil.string2Obj(sysLog.getOldValue(), SysRole.class);
                 afterRole.setOperator(RequestHolder.getCurrentUser().getUsername());
                 afterRole.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
@@ -130,8 +123,6 @@ public class SysLogService {
             case LogType.TYPE_ROLE_ACL:
                 SysRole aclRole = sysRoleMapper.selectByPrimaryKey(sysLog.getTargetId());
                 Preconditions.checkNotNull(aclRole, "角色已经不存在了");
-//                sysRoleAclService.changeRoleAcls(sysLog.getTargetId(), JsonMapper.string2Obj(sysLog.getOldValue(), new TypeReference<List<Integer>>() {
-//                }));
                 sysRoleAclService.changeRoleAcls(sysLog.getTargetId(), GsonUtil.str2List(sysLog.getOldValue(), Integer.class));
                 break;
             case LogType.TYPE_ROLE_USER:
@@ -144,8 +135,14 @@ public class SysLogService {
         }
     }
 
+    /**
+     * 分页查询日志记录
+     */
     public PageResult<SysLogWithBLOBs> searchPageList(SearchLogParam param, PageQuery page) {
+        // 参数校验
         BeanValidator.check(page);
+
+        // 创建数据库查询对象
         SearchLogDto dto = new SearchLogDto();
         dto.setType(param.getType());
         if (StringUtils.isNotBlank(param.getBeforeSeg())) {
@@ -168,10 +165,16 @@ public class SysLogService {
         } catch (Exception e) {
             throw new ParamException("传入的日期格式有问题，正确格式为：yyyy-MM-dd HH:mm:ss");
         }
+
+        // 查询符合查询条件的记录总共有多少条
         int count = sysLogMapper.countBySearchDto(dto);
+        log.info("count: [{}], dto: [{}]", count, dto);
         if (count > 0) {
             List<SysLogWithBLOBs> logList = sysLogMapper.getPageListBySearchDto(dto, page);
-            return PageResult.<SysLogWithBLOBs>builder().total(count).data(logList).build();
+            return PageResult.<SysLogWithBLOBs>builder()
+                    .total(count)
+                    .data(logList)
+                    .build();
         }
         return PageResult.<SysLogWithBLOBs>builder().build();
     }
@@ -181,9 +184,7 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_DEPT);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -196,9 +197,7 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_USER);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -211,9 +210,7 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_ACL_MODULE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -226,9 +223,7 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_ACL);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -241,9 +236,7 @@ public class SysLogService {
         sysLog.setType(LogType.TYPE_ROLE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
         sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
-//        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
         sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
-//        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -251,9 +244,28 @@ public class SysLogService {
         sysLogMapper.insertSelective(sysLog);
     }
 
-    public void saveRoleAclLog(Integer roleId, List<Integer> originAclIdList, List<Integer> aclIdList) {
+    void saveRoleAclLog(Integer roleId, List<Integer> before, List<Integer> after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ROLE_ACL);
+        sysLog.setTargetId(roleId);
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysLog.setOperateTime(new Date());
+        sysLog.setStatus(1);
+        sysLogMapper.insertSelective(sysLog);
     }
 
-    public void saveRoleUserLog(int roleId, List<Integer> originUserIdList, List<Integer> userIdList) {
+    void saveRoleUserLog(int roleId, List<Integer> before, List<Integer> after) {
+        SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
+        sysLog.setType(LogType.TYPE_ROLE_USER);
+        sysLog.setTargetId(roleId);
+        sysLog.setOldValue(before == null ? "" : GsonUtil.obj2String(before));
+        sysLog.setNewValue(after == null ? "" : GsonUtil.obj2String(after));
+        sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
+        sysLog.setOperateTime(new Date());
+        sysLog.setStatus(1);
+        sysLogMapper.insertSelective(sysLog);
     }
 }

@@ -1,5 +1,6 @@
 package org.yangxin.permission.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @RequestMapping("/sys/log")
+@Slf4j
 public class SysLogController {
     @Resource
     private SysLogService sysLogService;
@@ -38,6 +40,8 @@ public class SysLogController {
     @RequestMapping
     @ResponseBody
     public JsonData recover(@RequestParam("id") int id) {
+        log.info("id: [{}]", id);
+
         sysLogService.recover(id);
         return JsonData.success();
     }
@@ -45,6 +49,8 @@ public class SysLogController {
     @RequestMapping("/page.json")
     @ResponseBody
     public JsonData searchPage(SearchLogParam param, PageQuery page) {
+        log.info("param: [{}], page: [{}]", param, page);
+
         return JsonData.success(sysLogService.searchPageList(param, page));
     }
 }

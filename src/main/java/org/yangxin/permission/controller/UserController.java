@@ -41,11 +41,16 @@ public class UserController {
      */
     @RequestMapping("/login.page")
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        // 前端传过来的帐号和密码
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        log.info("username: [{}]", username);
 
+        // 查询数据库中对应记录
         SysUser sysUser = sysUserService.findByKeyword(username);
-        String errorMsg = "";
+        log.info("sysUser: [{}]", sysUser);
+
+        String errorMsg;
         String ret = request.getParameter("ret");
 
         if (StringUtils.isBlank(username)) {
