@@ -1,6 +1,5 @@
 package org.yangxin.permission.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +12,6 @@ import org.yangxin.permission.dao.SysRoleUserMapper;
 import org.yangxin.permission.model.SysAcl;
 import org.yangxin.permission.model.SysUser;
 import org.yangxin.permission.util.GsonUtil;
-import org.yangxin.permission.util.JsonMapper;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -100,8 +98,9 @@ public class SysCoreService {
             }
             return aclList;
         }
-        return JsonMapper.string2Obj(cacheValue, new TypeReference<List<SysAcl>>() {
-        });
+//        return JsonMapper.string2Obj(cacheValue, new TypeReference<List<SysAcl>>() {
+//        });
+        return GsonUtil.str2List(cacheValue, SysAcl.class);
     }
 
     /**
