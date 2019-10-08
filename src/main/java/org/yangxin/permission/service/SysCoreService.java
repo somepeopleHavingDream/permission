@@ -92,14 +92,11 @@ public class SysCoreService {
             List<SysAcl> aclList = getCurrentUserAclList();
             if (CollectionUtils.isNotEmpty(aclList)) {
                 sysCacheService.saveCache(GsonUtil.obj2String(aclList),
-//                sysCacheService.saveCache(JsonMapper.obj2String(aclList),
                         600, CacheKeyConstants.USER_ACLS,
                         String.valueOf(userId));
             }
             return aclList;
         }
-//        return JsonMapper.string2Obj(cacheValue, new TypeReference<List<SysAcl>>() {
-//        });
         return GsonUtil.str2List(cacheValue, SysAcl.class);
     }
 

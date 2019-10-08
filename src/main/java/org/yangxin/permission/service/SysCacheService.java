@@ -36,7 +36,6 @@ public class SysCacheService {
             shardedJedis.setex(cacheKey, timeoutSeconds, toSavedValue);
         } catch (Exception e) {
             log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
-//            log.error("save cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
         } finally {
             redisPoolService.safeClose(shardedJedis);
         }
@@ -53,7 +52,6 @@ public class SysCacheService {
             return shardedJedis.get(cacheKey);
         } catch (Exception e) {
             log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), GsonUtil.obj2String(keys), e);
-//            log.error("get from cache exception, prefix: [{}], keys: [{}]", prefix.name(), JsonMapper.obj2String(keys), e);
             return null;
         } finally {
             redisPoolService.safeClose(shardedJedis);
