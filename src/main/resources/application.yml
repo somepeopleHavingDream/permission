@@ -9,7 +9,6 @@ spring:
   mvc:
     view:
       prefix: /pages/
-#      prefix: /WEB-INF/views/
       suffix: .jsp
 
 ## mybatis

@@ -15,7 +15,6 @@
         </filter>
         <encoder>
             <pattern>
-<!--                %d  %level  %-70c#%-15method : %msg%n-->
                 %d  %-5level  %-75c#%-30method : %msg%n
             </pattern>
         </encoder>
@@ -31,7 +30,6 @@
         </filter>
         <encoder>
             <pattern>
-<!--                %d  %level  %-70c#%-15method : %msg%n-->
                 %d  %-5level  %-75c#%-30method : %msg%n
             </pattern>
         </encoder>
