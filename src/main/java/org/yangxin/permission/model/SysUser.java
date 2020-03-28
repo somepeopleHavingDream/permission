@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Builder
 public class SysUser {
+
     private Integer id;
 
     private String username;

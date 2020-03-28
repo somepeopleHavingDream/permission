@@ -6,7 +6,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * Http请求前后监听工具
@@ -20,9 +19,8 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String url = request.getRequestURI();
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        //        log.info("request start. url:{}, params:{}", url, JsonMapper.obj2String(parameterMap));
+//        String url = request.getRequestURI();
+//        Map<String, String[]> parameterMap = request.getParameterMap();
         long start = System.currentTimeMillis();
         request.setAttribute(START_TIME, start);
         return true;
@@ -30,20 +28,14 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        //        String url = request.getRequestURI().toString();
-//        long start = (Long) request.getAttribute(START_TIME);
-//        long end = System.currentTimeMillis();
-//        log.info("request finished. url:{}, cost:{}", url, end - start);
         removeThreadLocalInfo();
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        String url = request.getRequestURI().toString();
-        long start = (Long) request.getAttribute(START_TIME);
-        long end = System.currentTimeMillis();
-
-        //        log.info("request completed. url:{}, cost:{}", url, end - start);
+//        String url = request.getRequestURI();
+//        long start = (Long) request.getAttribute(START_TIME);
+//        long end = System.currentTimeMillis();
 
         removeThreadLocalInfo();
     }
