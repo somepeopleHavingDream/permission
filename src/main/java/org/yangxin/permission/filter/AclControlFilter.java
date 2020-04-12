@@ -25,6 +25,7 @@ import java.util.Set;
  */
 @Slf4j
 public class AclControlFilter implements Filter {
+
     // 白名单
     private static Set<String> exclusionUrlSet = Sets.newConcurrentHashSet();
     // 不需要授权的url

@@ -15,7 +15,6 @@ import org.yangxin.permission.filter.LoginFilter;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedisPool;
 
-import javax.servlet.Filter;
 import java.util.List;
 
 @SpringBootApplication
@@ -49,8 +48,8 @@ public class PermissionApplication implements WebMvcConfigurer {
      * 请求过滤器
      */
     @Bean
-    public FilterRegistrationBean httpFilter() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+    public FilterRegistrationBean<AclControlFilter> httpFilter() {
+        FilterRegistrationBean<AclControlFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new AclControlFilter());
         registration.addUrlPatterns("/sys/*", "/admin/*");
         registration.setOrder(2);
@@ -62,8 +61,8 @@ public class PermissionApplication implements WebMvcConfigurer {
      * 登录过滤器
      */
     @Bean
-    public FilterRegistrationBean loginFilter() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+    public FilterRegistrationBean<LoginFilter> loginFilter() {
+        FilterRegistrationBean<LoginFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new LoginFilter());
         registration.addUrlPatterns("/sys/*", "/admin/*");
         registration.setOrder(1);
