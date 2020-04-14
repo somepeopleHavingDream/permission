@@ -27,7 +27,7 @@ import java.util.Set;
 public class AclControlFilter implements Filter {
 
     // 白名单
-    private static Set<String> exclusionUrlSet = Sets.newConcurrentHashSet();
+    private static final Set<String> exclusionUrlSet = Sets.newConcurrentHashSet();
     // 不需要授权的url
     private final static String noAuthUrl = "/sys/user/noAuth.page";
 
