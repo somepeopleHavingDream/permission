@@ -21,7 +21,7 @@
         <!-- 滚动策略 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 路径 -->
-            <fileNamePattern>log/info.%d.log</fileNamePattern>
+            <fileNamePattern>log/%d{yyyy-MM,aux}/info.%d.log</fileNamePattern>
         </rollingPolicy>
     </appender>
     <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
