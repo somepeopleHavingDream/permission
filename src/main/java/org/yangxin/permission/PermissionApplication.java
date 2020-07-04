@@ -28,6 +28,7 @@ public class PermissionApplication implements WebMvcConfigurer {
     /**
      * redis
      */
+    @SuppressWarnings("rawtypes")
     @Bean
     public ShardedJedisPool shardedJedisPool() {
         JedisShardInfo shardInfo = new JedisShardInfo("127.0.0.1", 6379);

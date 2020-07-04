@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @ControllerAdvice
 public class SpringExceptionResolver implements HandlerExceptionResolver {
+
     @Override
     @ExceptionHandler(Exception.class)
     public ModelAndView resolveException(HttpServletRequest httpServletRequest,

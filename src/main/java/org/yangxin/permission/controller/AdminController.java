@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
     /**
      * 进入管理员主界面
      */
