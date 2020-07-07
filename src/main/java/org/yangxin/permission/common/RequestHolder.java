@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
  * 2019/09/05 17:36
  */
 public class RequestHolder {
+
     private static final ThreadLocal<SysUser> userHolder = new ThreadLocal<>();
 
     private static final ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<>();
