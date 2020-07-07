@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class AclModuleParam {
+
     private Integer id;
 
     @NotBlank(message = "权限模块名称不可以为空")

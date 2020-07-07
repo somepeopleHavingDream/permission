@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @ToString
 public class UserParam {
+
     private Integer id;
 
     @NotBlank(message = "用户名不可以为空")

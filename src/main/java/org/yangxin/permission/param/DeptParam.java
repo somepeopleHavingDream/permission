@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class DeptParam {
+
     /**
      * id
      */
